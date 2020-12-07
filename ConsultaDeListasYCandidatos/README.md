@@ -1,4 +1,6 @@
 # Consulta de listas y candidatos
+*Link de la pagina Scrapeada:https://consultalistacandidato.jne.gob.pe/PresidenteCongresoParlamentoAndino
+*
 
 ## Guia de instalacion
 
@@ -21,9 +23,9 @@ source venv/bin/activate
 
 - Linux
 
-pip3 install requests lxml beautifulsoup4
+pip3 install requests beautifulsoup4
 
 - Windows
 
-pip install request lxml beautifulsoup4
+pip install request beautifulsoup4
 
