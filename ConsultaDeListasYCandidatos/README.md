@@ -19,6 +19,8 @@ python3 -m venv venv
 
 source venv/bin/activate
 
+"venv/bin/activate":path to enviromment
+
 2. Installing packages
 
 - Linux

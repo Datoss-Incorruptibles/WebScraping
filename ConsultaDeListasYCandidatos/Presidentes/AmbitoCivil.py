@@ -4,7 +4,7 @@ import csv
 import json
 
 PARTIDOSPOLITICOS = []
-arrayDatosPersonales = []
+arrayAmbitoCivil = []
 
 with open(f'PresidenteCongresoParlamentoAndino.json', 'r', encoding='utf-8')as outFile:
 #   print(outFile.read())
@@ -78,89 +78,57 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
 
     else:
       url = f'https://pecaoe.jne.gob.pe/sipe/HojaVidaEG.aspx?cod={CANDIDATO["HOJA_VIDA_ENCRIPTADA"]}'
-   
 
-      urlCandidatoListarPorID = 'https://pecaoe.jne.gob.pe/servicios/declaracion.asmx/CandidatoListarPorID'
+      urlCandidatoAmbitoPenal= 'https://pecaoe.jne.gob.pe/servicios/declaracion.asmx/AmbitoCivilListarPorCandidato'
       myBody = {"objCandidatoBE": {"intId_Candidato": CANDIDATO["IDCANDIDATO"], "objProcesoElectoralBE": {"intIdProceso": CANDIDATO["IDPROCESO"]}}}
-          
-          
-      r = requests.post(urlCandidatoListarPorID, json=myBody)
+      r = requests.post(urlCandidatoAmbitoPenal, json=myBody)
       # print(r)
       # print(r.status_code)
       # print(r.headers['content-type'])
       # print(r.json())
       responseJSON =r.json() 
-      datosPersonales = responseJSON["d"]
-      objDatosPersonales = {
-          "IDCANDIDATO":CANDIDATO["IDCANDIDATO"],
-          "DNI":CANDIDATO["DNI"],
-          "NOMBRE_COMPLETO":CANDIDATO["NOMBRE_COMPLETO"],
+      datosAmbitoCivil = responseJSON["d"]
 
-          "strAPaterno":datosPersonales["strAPaterno"],
-          "strAMaterno":datosPersonales["strAMaterno"],
-          "strNombres":datosPersonales["strNombres"],
-          "strFecha_Nac":datosPersonales["strFecha_Nac"],
-          "intId_Sexo":datosPersonales["intId_Sexo"],
-          
-              # <b>Lugar de residencia / domicilio</b>
-
-          "strPais":datosPersonales["strPais"],
-          "strDepartamento":datosPersonales["objUbigeoResidenciaBE"]["strDepartamento"],
-          "strProvincia":datosPersonales["objUbigeoResidenciaBE"]["strProvincia"],
-          "strDistrito":datosPersonales["objUbigeoResidenciaBE"]["strDistrito"],
-          "strResidencia":datosPersonales["strResidencia"],
-
-
-          "strCorreo":datosPersonales["strCorreo"],
-          "strRegistro_Org_Pol":datosPersonales["strRegistro_Org_Pol"],
-          "strPortal_Web":datosPersonales["strPortal_Web"],
-          "strCargoAutoridad":datosPersonales["objCargoAutoridadBE"]["strCargoAutoridad"],
-          "strFormaDesignacion":datosPersonales["strFormaDesignacion"]
-      }
-
-      arrayDatosPersonales.append(objDatosPersonales)
+      arrayAmbitoCivilCandidatoList = []
+      if len(datosAmbitoCivil) > 0:
+        for ambCivilCan in datosAmbitoCivil:
+            objCandAmbitoCivil = {
+                "IDCANDIDATO":CANDIDATO["IDCANDIDATO"],
+                "DNI":CANDIDATO["DNI"],
+                "NOMBRE_COMPLETO":CANDIDATO["NOMBRE_COMPLETO"],
+                "strExpediente":ambCivilCan["strExpediente"],
+                "strJuzgado":ambCivilCan["strJuzgado"],
+                "strMateria":ambCivilCan["strMateria"],
+                "strFallo":ambCivilCan["strFallo"]
+            }
+            arrayAmbitoCivilCandidatoList.append(objCandAmbitoCivil)
+      #Validate if there are no items in the array of the candidate
+      if len(arrayAmbitoCivilCandidatoList) > 0:
+        arrayAmbitoCivil.append(arrayAmbitoCivilCandidatoList)
+print(arrayAmbitoCivil)
 
 
 
-f = csv.writer(open("DatosPersonales.csv", "w", newline=''))
-
+f = csv.writer(open("AmbitoCivil.csv", "w", newline=''))
+# Write CSV Header, If you dont need that, remove this line
 f.writerow(["IDCANDIDATO",
 "DNI",
 "NOMBRE_COMPLETO",
-"strNombres", 
-"strAPaterno",
-"strAMaterno",
-"strFecha_Nac",
-"intId_Sexo",
-"strPais",
-"strDepartamento",
-"strProvincia",
-"strDistrito",
-"strResidencia",
-"strCorreo",
-"strRegistro_Org_Pol",
-"strPortal_Web",
-"strCargoAutoridad",
-"strFormaDesignacion"
+"strExpediente", 
+"strJuzgado",
+"strMateria",
+"strFallo"
 ])
 
-for candidato in arrayDatosPersonales:
+for candArrayAmbitoCivil in arrayAmbitoCivil:
+  for candAmbitoCivil in candArrayAmbitoCivil:
     f.writerow([
-          candidato["IDCANDIDATO"],
-          candidato["DNI"],
-          candidato["NOMBRE_COMPLETO"],
-          candidato["strNombres"],
-          candidato["strAPaterno"],
-          candidato["strAMaterno"],
-          candidato["strFecha_Nac"],
-          candidato["intId_Sexo"],
-          candidato["strPais"],
-          candidato["strDepartamento"],
-          candidato["strProvincia"],
-          candidato["strDistrito"],
-          candidato["strResidencia"],
-          candidato["strCorreo"],
-          candidato["strRegistro_Org_Pol"],
-          candidato["strPortal_Web"],
-          candidato["strCargoAutoridad"],
-          candidato["strFormaDesignacion"]])
+          candAmbitoCivil["IDCANDIDATO"],
+          candAmbitoCivil["DNI"],
+          candAmbitoCivil["NOMBRE_COMPLETO"],
+          candAmbitoCivil["strExpediente"],
+          candAmbitoCivil["strJuzgado"],
+          candAmbitoCivil["strMateria"],
+          candAmbitoCivil["strFallo"]
+          ])
+
