@@ -104,9 +104,8 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
           "strNombres":datosPersonales["strNombres"],
           "strFecha_Nac":datosPersonales["strFecha_Nac"],
           "intId_Sexo":datosPersonales["intId_Sexo"],
-          
-              # <b>Lugar de residencia / domicilio</b>
 
+              # <b>Lugar de res idencia / domicilio</b>
           "strPais":datosPersonales["strPais"],
           "strDepartamento":datosPersonales["objUbigeoResidenciaBE"]["strDepartamento"],
           "strProvincia":datosPersonales["objUbigeoResidenciaBE"]["strProvincia"],

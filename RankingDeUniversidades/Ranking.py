@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-
 numeroDePaginas = 120
 HOME_URL = 'https://www.webometrics.info/es/WORLD'
 
@@ -25,7 +24,6 @@ for i in range(numeroDePaginas):
   listaDeUniv = htmlRank.select('div#block-system-main > div > table.sticky-enabled > tbody > tr')
   for universidad in listaDeUniv:
     uniInfo = universidad.select('td')
-
     rankingNum  = uniInfo[0].get_text() 
     universidadName = uniInfo[1].get_text() 
     # pais = uniInfo[0]
@@ -45,25 +43,38 @@ for i in range(numeroDePaginas):
     arrayDeUnis.append(objUni)
 
 
-print(arrayDeUnis)
+## generate csv 
+# f = csv.writer(open("RankingUnis.csv", "w", newline=''))
+# f.writerow(["rankingNum",
+# "universidadName",
+# "presenciaPosicion",
+# "impactoPosicion", 
+# "aperturaPosicion",
+# "excelenciaPosicion"
+# ])
+
+# for uni in arrayDeUnis:
+#   f.writerow([
+#         uni["rankingNum"],
+#         uni["universidadName"],
+#         uni["presenciaPosicion"],
+#         uni["impactoPosicion"],
+#         uni["excelenciaPosicion"],
+#         uni["excelenciaPosicion"]
+#         ])
+
+## insert db
 
 
 
-f = csv.writer(open("RankingUnis.csv", "w", newline=''))
-f.writerow(["rankingNum",
-"universidadName",
-"presenciaPosicion",
-"impactoPosicion", 
-"aperturaPosicion",
-"excelenciaPosicion"
-])
+con = connect_postgres()
+print("me conecte?")
+# for university in arrayDeUnis:
 
-for uni in arrayDeUnis:
-  f.writerow([
-        uni["rankingNum"],
-        uni["universidadName"],
-        uni["presenciaPosicion"],
-        uni["impactoPosicion"],
-        uni["excelenciaPosicion"],
-        uni["excelenciaPosicion"]
-        ])
+
+"""
+INSERT INTO public.ranking_universidad(
+	rankingnum, universidadname, presenciaposicion, impactoposicion, aperturaposicion, excelenciaposicion)
+	VALUES (1,'Harvard University',1,2,1,1);
+
+  """
