@@ -1,5 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+import time
     
 import csv
 import json
@@ -7,7 +10,7 @@ import json
 PARTIDOSPOLITICOS = []
 arrayCandidatosExperiencia = []
 
-with open(f'PresidenteCongresoParlamentoAndino.json', 'r', encoding='utf-8')as outFile:
+with open(f'Congresistas.json', 'r', encoding='utf-8')as outFile:
 #   print(outFile.read())
     doc = outFile.read()
     docString = json.loads(str(doc))
@@ -19,21 +22,33 @@ with open(f'PresidenteCongresoParlamentoAndino.json', 'r', encoding='utf-8')as o
         OBJPARTIDO = {"TXORGPOLITICA":TXORGPOLITICA, "IDEXPEDIENTE":IDEXPEDIENTE}
         # print(IDEXPEDIENTE,TXORGPOLITICA)
         PARTIDOSPOLITICOS.append(OBJPARTIDO)
-print(PARTIDOSPOLITICOS)
+# print(PARTIDOSPOLITICOS)
 
 
 
 
 for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
+
   urlCandidatosPartidos = f'https://consultalistacandidato.jne.gob.pe/PresidenteCongresoParlamentoAndino/GetCandidatos?IDPROCESO=79&IDEXPEDIENTE={PARTIDO_POLITICO["IDEXPEDIENTE"]}'
   agent = {"User-Agent":"Mozilla/5.0"}
-  r = requests.get(urlCandidatosPartidos, headers=agent)
+
+  session = requests.Session()
+  retry = Retry(connect=3, backoff_factor=0.5)
+  adapter = HTTPAdapter(max_retries=retry)
+  session.mount('http://', adapter)
+  session.mount('https://', adapter) 
+
+  # r = session.post(urlCandidatoExperienciaListarPorCandidato, json=myBody)
+
+
+  r = session.get(urlCandidatosPartidos, headers=agent)
+  # print(r)
   htmlCantidatos = BeautifulSoup(r.text, 'lxml')
 
   listaDeCantidatos = htmlCantidatos.find('table', attrs={'class':'Candidato'}).find_all('tr')
 
-  TRESCANDIDATOS = []
-  for i in range(3): 
+  XCANDIDATOS = []
+  for i in range(len(listaDeCantidatos)): 
       # print(cantidatoOne)
       try:
         cantidatoOne = listaDeCantidatos[i+1].find_all('td')
@@ -77,11 +92,12 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
       "IDCANDIDATO":cantidatoOneArray[10],
       "IDPROCESO":cantidatoOneArray[11]
       }
-      TRESCANDIDATOS.append(CANDIDATOABC)
+      XCANDIDATOS.append(CANDIDATOABC)
 
-  PARTIDO_POLITICO["CANDIDATOS"] = TRESCANDIDATOS
+  PARTIDO_POLITICO["CANDIDATOS"] = XCANDIDATOS
 
   for CANDIDATO in PARTIDO_POLITICO["CANDIDATOS"]:
+    print(CANDIDATO["NOMBRE_COMPLETO"])
     if CANDIDATO["HOJA_VIDA_ENCRIPTADA"] == "VACIO":
       print("NO HAY HOJA DE VIDA DE ESTE CANDIDATO")
 
@@ -91,18 +107,49 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
 
       urlCandidatoExperienciaListarPorCandidato = 'https://pecaoe.jne.gob.pe/servicios/declaracion.asmx/CandidatoExperienciaListarPorCandidato'
       myBody = {"objCandidatoBE": {"intId_Candidato": CANDIDATO["IDCANDIDATO"], "objProcesoElectoralBE": {"intIdProceso": CANDIDATO["IDPROCESO"]}}}
-          
-          
-      r = requests.post(urlCandidatoExperienciaListarPorCandidato, json=myBody)
+      
+      # session = requests.Session()
+      # retry = Retry(connect=3, backoff_factor=0.5)
+      # adapter = HTTPAdapter(max_retries=retry)
+      # session.mount('http://', adapter)
+      # session.mount('https://', adapter)   
+      # r = session.post(urlCandidatoExperienciaListarPorCandidato, json=myBody)
+  
+      # responseJSON =r.json() 
+
+      try:
+        session = requests.Session()
+        retry = Retry(connect=3, backoff_factor=0.5)
+        adapter = HTTPAdapter(max_retries=retry)
+        session.mount('http://', adapter)
+        session.mount('https://', adapter) 
+
+        r = session.post(urlCandidatoExperienciaListarPorCandidato, json=myBody)
+        responseJSON =r.json() 
+      except r.Timeout as e:
+        print("OOPS!! Timeout Error")
+        print(str(e))
+        print("Hey, wait for a litle to make more requests")
+        print(r.status_code)
+        time.sleep(5)
+        print("Was a nice sleep, now let me continue...")
+        r = session.post(urlCandidatoExperienciaListarPorCandidato, json=myBody)
+        responseJSON =r.json() 
+        if not responseJSON:
+          responseJSON["d"] = []
+      except:
+        print("OOPS!! Error")
+        responseJSON["d"] = []
+
+
       # print(r)
-      # print(r.status_code)
+      print(r.status_code)
       # print(r.headers['content-type'])
       # print(r.json())
-      responseJSON =r.json() 
 
       len(responseJSON["d"])
       arrayCandidatoExperiencia = []
-
+      # print(responseJSON["d"])
       for CandidatoExperiencia in responseJSON["d"]:
           objCandidatoExperiencia = {
               "IDCANDIDATO":CANDIDATO["IDCANDIDATO"],
@@ -120,10 +167,11 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
 
       arrayCandidatosExperiencia.append(arrayCandidatoExperiencia)   
           
-print(arrayCandidatosExperiencia)
-    
-    
-    
+# print(arrayCandidatosExperiencia)
+
+
+print("finish")
+
 
 
 # f = csv.writer(open("test.csv", "wb+"))

@@ -3,10 +3,14 @@ from bs4 import BeautifulSoup
 import csv
 import json
 
+from requests.adapters import HTTPAdapter
+# from requests.packages.urllib3.util.retry import Retry
+from urllib3.util.retry import Retry
+
 PARTIDOSPOLITICOS = []
 arrayCandidatosEducacionBasicaRegular = []
 
-with open(f'Amazonas.json', 'r', encoding='utf-8')as outFile:
+with open(f'Congresistas.json', 'r', encoding='utf-8')as outFile:
     doc = outFile.read()
     docString = json.loads(str(doc))
 
@@ -85,7 +89,16 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
       urlEducacionBasicaListarPorCandidato = 'https://pecaoe.jne.gob.pe/servicios/declaracion.asmx/EducacionBasicaListarPorCandidato'
       myBody = {"objCandidatoBE": {"intId_Candidato": CANDIDATO["IDCANDIDATO"], "objProcesoElectoralBE": {"intIdProceso": CANDIDATO["IDPROCESO"]}}}
 
-      r = requests.post(urlEducacionBasicaListarPorCandidato, json=myBody)
+
+      session = requests.Session()
+      retry = Retry(connect=3, backoff_factor=0.5)
+      adapter = HTTPAdapter(max_retries=retry)
+      session.mount('http://', adapter)
+      session.mount('https://', adapter) 
+      
+         
+      r = session.post(urlEducacionBasicaListarPorCandidato, json=myBody)
+
       # print(r)
       # print(r.status_code)
       # print(r.headers['content-type'])
@@ -99,7 +112,7 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
           objCandidatoEducacionBasicaRegular = {
               "IDCANDIDATO":CANDIDATO["IDCANDIDATO"],
               "DNI":CANDIDATO["DNI"],
-              "NOMBRE_COMPLETO":CANDIDATO["NOMBRE_COMPLETO"],
+              "NOMBRE_COMPLETO":CANDIDATO["NOMBRE_COMPLETO"],         
               "intTipoEducacion": CandEduBasRegular["intTipoEducacion"], # 1:PRIMARIA  #2:SECUNDARIA
               "strCentroPrimaria": CandEduBasRegular["strCentroPrimaria"],
               "strPrimaria":CandEduBasRegular["strPrimaria"],
