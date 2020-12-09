@@ -1,12 +1,18 @@
 import requests
+
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
 from bs4 import BeautifulSoup
 import csv
 import json
 
+
+
 PARTIDOSPOLITICOS = []
 arrayCandidatosEducacionSuperior = []
 
-with open(f'PresidenteCongresoParlamentoAndino.json', 'r', encoding='utf-8')as outFile:
+with open(f'Congresistas.json', 'r', encoding='utf-8')as outFile:
 #   print(outFile.read())
     doc = outFile.read()
     docString = json.loads(str(doc))
@@ -29,8 +35,8 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
 
   listaDeCantidatos = htmlCantidatos.find('table', attrs={'class':'Candidato'}).find_all('tr')
 
-  TRESCANDIDATOS = []
-  for i in range(3): 
+  XCANDIDATOS = []
+  for i in range(len(listaDeCantidatos)): 
       # print(cantidatoOne)
       try:
         cantidatoOne = listaDeCantidatos[i+1].find_all('td')
@@ -74,24 +80,26 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
       "IDCANDIDATO":cantidatoOneArray[10],
       "IDPROCESO":cantidatoOneArray[11]
       }
-      TRESCANDIDATOS.append(CANDIDATOABC)
+      XCANDIDATOS.append(CANDIDATOABC)
 
-  PARTIDO_POLITICO["CANDIDATOS"] = TRESCANDIDATOS
+  PARTIDO_POLITICO["CANDIDATOS"] = XCANDIDATOS
 
   for CANDIDATO in PARTIDO_POLITICO["CANDIDATOS"]:
     if CANDIDATO["HOJA_VIDA_ENCRIPTADA"] == "VACIO":
       print("NO HAY HOJA DE VIDA DE ESTE CANDIDATO")
 
     else:
-
+      
       urlEducacionSuperior = 'https://pecaoe.jne.gob.pe/servicios/declaracion.asmx/EducacionSuperiorListarPorCandidato'
       myBody = {"objCandidatoBE": {"intId_Candidato": CANDIDATO["IDCANDIDATO"], "objProcesoElectoralBE": {"intIdProceso": CANDIDATO["IDPROCESO"]}}}
-          
-      r = requests.post(urlEducacionSuperior, json=myBody)
-      # print(r)
-      # print(r.status_code)
-      # print(r.headers['content-type'])
-      # print(r.json())
+
+      session = requests.Session()
+      retry = Retry(connect=3, backoff_factor=0.5)
+      adapter = HTTPAdapter(max_retries=retry)
+      session.mount('http://', adapter)
+      session.mount('https://', adapter)   
+      r = session.post(urlEducacionSuperior, json=myBody)
+
       responseJSON =r.json() 
 
       len(responseJSON["d"])
@@ -117,7 +125,8 @@ for PARTIDO_POLITICO in PARTIDOSPOLITICOS:
       arrayCandidatosEducacionSuperior.append(arrayEducacionSuperior)   
           
 
-print(arrayCandidatosEducacionSuperior)
+# print(arrayCandidatosEducacionSuperior)
+print("finish")
 
 
 # f = csv.writer(open("test.csv", "wb+"))
