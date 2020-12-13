@@ -1,0 +1,27 @@
+
+idProceso:108
+https://plataformaelectoral.jne.gob.pe/Candidato/GetExpedientesLista/108-2-------0-
+
+
+
+
+idTipoEleccion:2
+idProceso:108   ->idProcesoElectoral
+idSolicitudLista:21645
+idExpediente:65963
+https://plataformaelectoral.jne.gob.pe/Candidato/GetCandidatos/2-108-21645-65963
+https://plataformaelectoral.jne.gob.pe/Candidato/GetCandidatos/2-108-21937-66595
+https://plataformaelectoral.jne.gob.pe/Candidato/GetCandidatos/2-108-22253-66473
+
+
+
+idHojaVida:131325
+0 -> Default
+idOrganizacionPolitica:22
+idProceso:108  -> idProcesoElectoral
+
+https://plataformaelectoral.jne.gob.pe/HojaVida/GetAllHVDatosPersonales?param=132827-0-22-108
+https://plataformaelectoral.jne.gob.pe/HojaVida/GetAllHVDatosPersonales?param=131325-0-2646-108
+
+
+
