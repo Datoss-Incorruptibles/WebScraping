@@ -285,4 +285,71 @@ def GetAllSentenciaPenal():
   with open('CandidatoSentPenal.json', 'w') as json_file:
     json.dump(resultSentPenales, json_file)
 
-GetAllSentenciaPenal()
+# GetAllSentenciaPenal()
+
+
+
+def GetAllSentenciaCivil():
+  resultSentCivil = []
+  counter = 0
+  for CANDIDATO in arrayCandidatos:
+    try:
+      urlCandidatoListarPorID = f'https://plataformaelectoral.jne.gob.pe/HojaVida/GetAllHVSentenciaObliga?Ids={CANDIDATO["idHojaVida"]}-0-ASC'
+      agent = {"User-Agent":"Mozilla/5.0"}
+
+      r = requests.get(urlCandidatoListarPorID,headers=agent)
+     
+      data = r.json()
+      candidatoSentCivil = data["data"]
+      if not len(candidatoSentCivil)> 0:
+        print("No tiene lista de sentencias civil , array 0")
+      else:
+        for candidatoSentPentCivil in candidatoSentCivil:
+          # adding key to indentifie the object
+          candidatoSentPentCivil["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
+          resultSentCivil.append(candidatoSentPentCivil)
+          print(candidatoSentPentCivil["strDocumentoIdentidad"])
+      counter = counter + 1
+      print(counter)
+    except:
+      print("CRASH OBTENIENDO LA sentencias civil ")
+    
+  with open('CandidatoSentCivil.json', 'w') as json_file:
+    json.dump(resultSentCivil, json_file)
+
+
+
+
+
+
+
+
+def GetAllEduBasic():
+  resultEduBasic = []
+  counter = 0
+  for CANDIDATO in arrayCandidatos:
+    try:
+      urlCandidatoListarPorID = f'https://plataformaelectoral.jne.gob.pe/HojaVida/GetAllHVEduBasica?Ids={CANDIDATO["idHojaVida"]}-0'
+      agent = {"User-Agent":"Mozilla/5.0"}
+
+      r = requests.get(urlCandidatoListarPorID,headers=agent)
+     
+      data = r.json()
+      candidatoEduBasic = data["data"]
+      if not len(candidatoEduBasic)> 0:
+        print("No tiene lista de educacion post grado este candidato")
+      else:
+        for candidatoEduBasicSlot in candidatoEduBasic:
+          # adding key to indentifie the object
+          candidatoEduBasicSlot["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
+          resultEduBasic.append(candidatoEduBasicSlot)
+          print(candidatoEduBasicSlot["strDocumentoIdentidad"])
+      counter = counter + 1
+      print(counter)
+    except:
+      print("CRASH OBTENIENDO LA EDUC post grado")
+    
+  with open('CandidatoEduBasic.json', 'w') as json_file:
+    json.dump(resultEduBasic, json_file)
+
+# GetAllEduBasic()
