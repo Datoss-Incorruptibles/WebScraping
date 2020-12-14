@@ -224,7 +224,7 @@ def GetAllEduTecnico():
 
 
 def GetAllPostGrado():
-  resultEduPostGrado = []
+  resultSentPenales = []
   counter = 0
   for CANDIDATO in arrayCandidatos:
     try:
@@ -234,21 +234,55 @@ def GetAllPostGrado():
       r = requests.get(urlCandidatoListarPorID,headers=agent)
      
       data = r.json()
-      candidatoPostGrado = data["data"]
-      if not len(candidatoPostGrado)> 0:
+      candidatoSentPenal = data["data"]
+      if not len(candidatoSentPenal)> 0:
         print("No tiene lista de educacion post grado este candidato")
       else:
-        for candidatoPostGradoSlot in candidatoPostGrado:
+        for candidatoSentPenalSlot in candidatoSentPenal:
           # adding key to indentifie the object
-          candidatoPostGradoSlot["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
-          resultEduPostGrado.append(candidatoPostGradoSlot)
-          print(candidatoPostGradoSlot["strDocumentoIdentidad"])
+          candidatoSentPenalSlot["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
+          resultSentPenales.append(candidatoSentPenalSlot)
+          print(candidatoSentPenalSlot["strDocumentoIdentidad"])
       counter = counter + 1
       print(counter)
     except:
       print("CRASH OBTENIENDO LA EDUC post grado")
     
-  with open('CandidatoPostGrado.json', 'w') as json_file:
-    json.dump(resultEduPostGrado, json_file)
+  with open('CandidatoSentPenal.json', 'w') as json_file:
+    json.dump(resultSentPenales, json_file)
 
 # GetAllPostGrado()
+
+
+
+
+
+def GetAllSentenciaPenal():
+  resultSentPenales = []
+  counter = 0
+  for CANDIDATO in arrayCandidatos:
+    try:
+      urlCandidatoListarPorID = f'https://plataformaelectoral.jne.gob.pe/HojaVida/GetAllHVSentenciaPenal?Ids={CANDIDATO["idHojaVida"]}-0-ASC'
+      agent = {"User-Agent":"Mozilla/5.0"}
+
+      r = requests.get(urlCandidatoListarPorID,headers=agent)
+     
+      data = r.json()
+      candidatoSentPenal = data["data"]
+      if not len(candidatoSentPenal)> 0:
+        print("No tiene lista de sentencias penales , array 0")
+      else:
+        for candidatoSentPenalSlot in candidatoSentPenal:
+          # adding key to indentifie the object
+          candidatoSentPenalSlot["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
+          resultSentPenales.append(candidatoSentPenalSlot)
+          print(candidatoSentPenalSlot["strDocumentoIdentidad"])
+      counter = counter + 1
+      print(counter)
+    except:
+      print("CRASH OBTENIENDO LA sentencias penales ")
+    
+  with open('CandidatoSentPenal.json', 'w') as json_file:
+    json.dump(resultSentPenales, json_file)
+
+GetAllSentenciaPenal()

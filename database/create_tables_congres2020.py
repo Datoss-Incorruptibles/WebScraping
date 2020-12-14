@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 
 load_dotenv('../.env')
 
-# con = psycopg2.connect(database=os.getenv("DB_NAME"), user=os.getenv("DB_USER"), password=os.getenv("DB_PASS"), host=os.getenv("DB_HOST"), port="5432")
-# print(con)
-# print("Database opened successfully")
+con = psycopg2.connect(database=os.getenv("DB_NAME"), user=os.getenv("DB_USER"), password=os.getenv("DB_PASS"), host=os.getenv("DB_HOST"), port="5432")
+print(con)
+print("Database opened successfully")
 
 ## create tables 
 
@@ -163,6 +163,80 @@ load_dotenv('../.env')
 # con.commit()
 # print("Table candidato_edu_no_uni created successfully")
 
+
+
+# cur = con.cursor()
+# cur.execute('''
+# CREATE TABLE IF NOT EXISTS candidato_sent_penal(
+#     strDocumentoIdentidad character varying,
+#     idEstado int,
+#     idHVSentenciaPenal int,
+#     idHojaVida int,
+#     idParamCumpleFallo int,
+#     idParamModalidad int,
+#     intItemSentenciaPenal int,
+#     strCumpleFallo character varying,
+#     strDelitoPenal character varying,
+#     strExpedientePenal character varying,
+#     strFalloPenal character varying,
+#     strFechaSentenciaPenal character varying,
+#     strModalidad character varying,
+#     strOrder character varying,
+#     strOrganoJudiPenal character varying,
+#     strOtraModalidad character varying,
+#     strTengoSentenciaPenal character varying,
+#     strUsuario character varying
+#     );
+# ''')
+# con.commit()
+# print("Table candidato_sent_penal created successfully")
+
+
+
+# cur = con.cursor()
+# cur.execute('''
+# CREATE TABLE IF NOT EXISTS candidato_sent_civil(
+#     strDocumentoIdentidad character varying,
+#     idEstado int,
+#     idHVSentenciaObliga int,
+#     idHojaVida int,
+#     idParamMateriaSentencia int,
+#     intItemSentenciaObliga int,
+#     strEstado character varying,
+#     strExpedienteObliga character varying,
+#     strFalloObliga character varying,
+#     strMateriaSentencia character varying,
+#     strOrder character varying,
+#     strOrganoJuridicialObliga character varying,
+#     strTengoSentenciaObliga character varying,
+#     strUsuario character varying
+#     );
+# ''')
+# con.commit()
+# print("Table candidato_sent_civil created successfully")
+
+
+
+
+
+
+# cur = con.cursor()
+# cur.execute('''
+# CREATE TABLE IF NOT EXISTS candidato_edu_basic(
+#     strDocumentoIdentidad character varying,
+#     idEstado int,
+#     idHVEduBasica int,
+#     idHojaVida int,
+#     strConcluidoEduPrimaria character varying,
+#     strConcluidoEduSecundaria character varying,
+#     strEduPrimaria character varying,
+#     strEduSecundaria character varying,
+#     strTengoEduBasica character varying,
+#     strUsuario character varying
+#     );
+# ''')
+# con.commit()
+# print("Table candidato_edu_basic created successfully")
 
 
 # con.close()

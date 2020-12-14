@@ -180,4 +180,100 @@ cur = con.cursor()
 #     con.commit()
 
 
+
+
+# with open('../PlataformaElectoral/EleCongreExtra2020/CandidatoSentPenal.json','r', encoding='utf-8' ) as jsonfile:
+#     doc = jsonfile.read()
+#     arrayCandidatos = json.loads(str(doc))
+#     count = 0
+#     for row in arrayCandidatos:
+#         cur.execute( \
+#           "INSERT INTO public.candidato_sent_penal(strDocumentoIdentidad,idEstado,idHVSentenciaPenal,idHojaVida,idParamCumpleFallo,idParamModalidad,intItemSentenciaPenal,strCumpleFallo,strDelitoPenal,strExpedientePenal,strFalloPenal,strFechaSentenciaPenal,strModalidad,strOrder,strOrganoJudiPenal,strOtraModalidad,strTengoSentenciaPenal,strUsuario)\
+#             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", (
+#             row["strDocumentoIdentidad"],
+#             row["idEstado"],
+#             row["idHVSentenciaPenal"],
+#             row["idHojaVida"],
+#             row["idParamCumpleFallo"],
+#             row["idParamModalidad"],
+#             row["intItemSentenciaPenal"],
+#             row["strCumpleFallo"],
+#             row["strDelitoPenal"],
+#             row["strExpedientePenal"],
+#             row["strFalloPenal"],
+#             row["strFechaSentenciaPenal"],
+#             row["strModalidad"],
+#             row["strOrder"],
+#             row["strOrganoJudiPenal"],
+#             row["strOtraModalidad"],
+#             row["strTengoSentenciaPenal"],
+#             row["strUsuario"]
+#             ))
+#         count+=1
+#         # con.commit()
+#         print("insert row ",count," success!")
+#     con.commit()
+
+
+
+
+
+# with open('../PlataformaElectoral/EleCongreExtra2020/CandidatoSentCivil.json','r', encoding='utf-8' ) as jsonfile:
+#     doc = jsonfile.read()
+#     arrayCandidatos = json.loads(str(doc))
+#     count = 0
+#     for row in arrayCandidatos:
+#         cur.execute( \
+#           "INSERT INTO public.candidato_sent_civil(strDocumentoIdentidad,idEstado,idHVSentenciaObliga,idHojaVida,idParamMateriaSentencia,intItemSentenciaObliga,strEstado,strExpedienteObliga,strFalloObliga,strMateriaSentencia,strOrder,strOrganoJuridicialObliga,strTengoSentenciaObliga,strUsuario)\
+#             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s)", (
+#             row["strDocumentoIdentidad"],
+#             row["idEstado"],
+#             row["idHVSentenciaObliga"],
+#             row["idHojaVida"],
+#             row["idParamMateriaSentencia"],
+#             row["intItemSentenciaObliga"],
+#             row["strEstado"],
+#             row["strExpedienteObliga"],
+#             row["strFalloObliga"],
+#             row["strMateriaSentencia"],
+#             row["strOrder"],
+#             row["strOrganoJuridicialObliga"],
+#             row["strTengoSentenciaObliga"],
+#             row["strUsuario"]
+#             ))
+#         count+=1
+#         # con.commit()
+#         print("insert row ",count," success!")
+#     con.commit()
+
+
+
+
+with open('../PlataformaElectoral/EleCongreExtra2020/CandidatoEduBasic.json','r', encoding='utf-8' ) as jsonfile:
+    doc = jsonfile.read()
+    arrayCandidatos = json.loads(str(doc))
+    count = 0
+    for row in arrayCandidatos:
+        cur.execute( \
+          "INSERT INTO public.candidato_edu_basic(strDocumentoIdentidad,idEstado,idHVEduBasica,idHojaVida,strConcluidoEduPrimaria,strConcluidoEduSecundaria,strEduPrimaria,strEduSecundaria,strTengoEduBasica,strUsuario)\
+            VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s,%s)", (
+            row["strDocumentoIdentidad"],
+            row["idEstado"],
+            row["idHVEduBasica"],
+            row["idHojaVida"],
+            row["strConcluidoEduPrimaria"],
+            row["strConcluidoEduSecundaria"],
+            row["strEduPrimaria"],
+            row["strEduSecundaria"],
+            row["strTengoEduBasica"],
+            row["strUsuario"]
+            ))
+        count+=1
+        # con.commit()
+        print("insert row ",count," success!")
+    con.commit()
+
+
+
+
 con.close() 
