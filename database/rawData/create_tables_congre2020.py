@@ -17,7 +17,12 @@ print("Database opened successfully")
 # CREATE TABLE IF NOT EXISTS candidato_info_electoral (
 #     idCandidato int,
 #     strDocumentoIdentidad character varying,
+#     idHojaVida int,
+#     idSolicitudLista  int,
+#     intPosicion int,
 #     idCargoEleccion int,
+#     idExpediente int,
+#     idEstado int,
 #     strCargoEleccion character varying,
 #     strCandidato character varying,
 #     strOrganizacionPolitica character varying,
@@ -25,13 +30,70 @@ print("Database opened successfully")
 #     strRegion character varying,
 #     strDistritoElec character varying,
 #     strUbigeoPostula character varying,
-#     idExpediente int,
-#     idEstado int,
-#     strEstadoExp character varying
+
+#     strEstadoExp character varying,
+#     strUbiRegionPostula character varying,
+#     idProcesoElectoral int
 #     );
 # ''')
 # con.commit()
 # print("Table candidato_info_electoral created successfully")
+
+
+
+
+# cur = con.cursor()
+# cur.execute('''
+# CREATE TABLE IF NOT EXISTS candidato_info_personal (
+#     strDocumentoIdentidad character varying,
+#     idCandidato int,
+#     idCargoEleccion int,
+#     idEstado int,
+#     idHojaVida int,
+#     idOrganizacionPolitica int,
+#     idParamHojaVida int,
+#     idProcesoElectoral int,
+#     idTipoEleccion int,
+#     strAnioPostula character varying,
+#     strApellidoMaterno character varying,
+#     strApellidoPaterno character varying,
+#     strCargoEleccion character varying,
+#     strCarneExtranjeria character varying,
+#     strClase character varying,
+#     strDomiDepartamento character varying,
+#     strDomiDistrito character varying,
+#     strDomiProvincia character varying,
+#     strDomicilioDirecc character varying,
+#     strEstado character varying,
+#     strFeTerminoRegistro character varying,
+#     strFechaNacimiento character varying,
+#     strHojaVida character varying,
+#     strNaciDepartamento character varying,
+#     strNaciDistrito character varying,
+#     strNaciProvincia character varying,
+#     strNombres character varying,
+#     strPaisNacimiento character varying,
+#     strPostulaDepartamento character varying,
+#     strPostulaDistrito character varying,
+#     strPostulaProvincia character varying,
+#     strProcesoElectoral character varying,
+#     strRutaArchivo character varying,
+#     strSexo character varying,
+#     strUbigeoDomicilio character varying,
+#     strUbigeoNacimiento character varying,
+#     strUbigeoPostula character varying,
+#     strUsuario character varying
+#     );
+# ''')
+# con.commit()
+# print("Table candidato_info_personal created successfully")
+
+
+
+
+
+
+
 
 
 # drop table candidato_info_personal;
@@ -239,6 +301,104 @@ print("Database opened successfully")
 # print("Table candidato_edu_basic created successfully")
 
 
-# con.close()
 
+
+# cur = con.cursor()
+# cur.execute('''
+# CREATE TABLE IF NOT EXISTS candidato_cargo_partidario(
+#     strDocumentoIdentidad character varying,
+#     idEstado int,
+#     idHVCargoPartidario int,
+#     idHojaVida int,
+#     idOrgPolCargoPartidario int,
+#     intItemCargoPartidario int,
+#     strAnioCargoPartiDesde character varying,
+#     strAnioCargoPartiHasta character varying,
+#     strCargoPartidario character varying,
+#     strOrder character varying,
+#     strOrgPolCargoPartidario character varying,
+#     strTengoCargoPartidario character varying
+#     );
+# ''')
+# con.commit()
+# print("Table candidato_cargo_partidario created successfully")
+
+
+
+
+
+# cur = con.cursor()
+# cur.execute('''
+# CREATE TABLE IF NOT EXISTS candidato_cargo_eleccion(
+#     strDocumentoIdentidad character varying,
+#     idCargoEleccion int,
+#     idEstado int,
+#     idHVCargoEleccion int,
+#     idHojaVida int,
+#     idOrgPolCargoElec int,
+#     intItemCargoEleccion int,
+#     strAnioCargoElecDesde character varying,
+#     strAnioCargoElecHasta character varying,
+#     strCargoEleccion character varying,
+#     strCargoEleccion2 character varying,
+#     strOrder character varying,
+#     strOrgPolCargoElec character varying
+#     );
+# ''')
+# con.commit()
+# print("Table candidato_cargo_eleccion created successfully")
+
+
+
+
+# cur = con.cursor()
+# cur.execute('''
+# CREATE TABLE IF NOT EXISTS organizacion_politica(
+#     idOrganizacionPolitica int,
+#     idExpediente int,
+#     idJuradoUbicacion int,
+#     idSolicitudLista int,
+#     idTipoEleccion int,
+#     strCarpeta character varying,
+#     strCodExpediente character varying,
+#     strDistritoElec character varying,
+#     strEstadoLista character varying,
+#     strJuradoElectoral character varying,
+#     strOrganizacionPolitica character varying,
+#     strRegion character varying,
+#     strTipoOrganizacion character varying,
+#     strUbigeo character varying
+#     );
+# ''')
+# con.commit()
+# print("Table candidato_cargo_eleccion created successfully")
+
+
+
+
+cur = con.cursor()
+cur.execute('''
+CREATE TABLE IF NOT EXISTS proceso(
+    idEstado int,
+    idProcesoElectoral int,
+    idTipoProceso int,
+    intCantidadJee int,
+    strDocConvocatoria character varying,
+    strEstado character varying,
+    strFechaAperturaProceso character varying,
+    strFechaConvocatoria character varying,
+    strFechaCierreProceso character varying,
+    strFechaRegistro character varying,
+    strNombreArchivo character varying,
+    strProcesoElectoral character varying,
+    strSiglas character varying,
+    strTipoProceso character varying,
+    strUsuario character varying
+    );
+''')
+con.commit()
+print("Table candidato_cargo_eleccion created successfully")
+
+
+con.close()
 

@@ -318,7 +318,7 @@ def GetAllSentenciaCivil():
     json.dump(resultSentCivil, json_file)
 
 
-
+# GetAllSentenciaCivil()
 
 
 
@@ -335,21 +335,86 @@ def GetAllEduBasic():
       r = requests.get(urlCandidatoListarPorID,headers=agent)
      
       data = r.json()
-      candidatoEduBasic = data["data"]
-      if not len(candidatoEduBasic)> 0:
+      candidatoCargoPartidario = data["data"]
+      if not len(candidatoCargoPartidario)> 0:
         print("No tiene lista de educacion post grado este candidato")
       else:
-        for candidatoEduBasicSlot in candidatoEduBasic:
+        for candidatoCargoPartidarioSlot in candidatoCargoPartidario:
           # adding key to indentifie the object
-          candidatoEduBasicSlot["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
-          resultEduBasic.append(candidatoEduBasicSlot)
-          print(candidatoEduBasicSlot["strDocumentoIdentidad"])
+          candidatoCargoPartidarioSlot["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
+          resultEduBasic.append(candidatoCargoPartidarioSlot)
+          print(candidatoCargoPartidarioSlot["strDocumentoIdentidad"])
       counter = counter + 1
       print(counter)
     except:
       print("CRASH OBTENIENDO LA EDUC post grado")
     
-  with open('CandidatoEduBasic.json', 'w') as json_file:
+  with open('CandidatoCargoPartidario.json', 'w') as json_file:
     json.dump(resultEduBasic, json_file)
 
 # GetAllEduBasic()
+
+
+
+
+def GetAllCargoPartidario():
+  resultEduBasic = []
+  counter = 0
+  for CANDIDATO in arrayCandidatos:
+    try:
+      urlCandidatoListarPorID = f'https://plataformaelectoral.jne.gob.pe/HojaVida/GetAllHVCargoPartidario?Ids={CANDIDATO["idHojaVida"]}-0-ASC'
+      agent = {"User-Agent":"Mozilla/5.0"}
+
+      r = requests.get(urlCandidatoListarPorID,headers=agent)
+     
+      data = r.json()
+      candidatoCargoPartidario = data["data"]
+      if not len(candidatoCargoPartidario)> 0:
+        print("No tiene lista de educacion carog part  este candidato")
+      else:
+        for candidatoCargoPartidarioSlot in candidatoCargoPartidario:
+          # adding key to indentifie the object
+          candidatoCargoPartidarioSlot["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
+          resultEduBasic.append(candidatoCargoPartidarioSlot)
+          print(candidatoCargoPartidarioSlot["strDocumentoIdentidad"])
+      counter = counter + 1
+      print(counter)
+    except:
+      print("CRASH OBTENIENDO LA cargo pardtidario grado")
+    
+  with open('CandidatoCargoPartidario.json', 'w') as json_file:
+    json.dump(resultEduBasic, json_file)
+
+# GetAllCargoPartidario()
+
+
+
+def GetAllCargoEleccion():
+  resultEduBasic = []
+  counter = 0
+  for CANDIDATO in arrayCandidatos:
+    try:
+      urlCandidatoListarPorID = f'https://plataformaelectoral.jne.gob.pe/HojaVida/GetAllHVCargoEleccion?Ids={CANDIDATO["idHojaVida"]}-0-ASC'
+      agent = {"User-Agent":"Mozilla/5.0"}
+
+      r = requests.get(urlCandidatoListarPorID,headers=agent)
+     
+      data = r.json()
+      candidatoCargoEleccion = data["data"]
+      if not len(candidatoCargoEleccion)> 0:
+        print("No tiene lista de educacion carog part  este candidato")
+      else:
+        for candidatoCargoEleccionSlot in candidatoCargoEleccion:
+          # adding key to indentifie the object
+          candidatoCargoEleccionSlot["strDocumentoIdentidad"] = CANDIDATO["strDocumentoIdentidad"]
+          resultEduBasic.append(candidatoCargoEleccionSlot)
+          print(candidatoCargoEleccionSlot["strDocumentoIdentidad"])
+      counter = counter + 1
+      print(counter)
+    except:
+      print("CRASH OBTENIENDO LA cargo pardtidario grado")
+    
+  with open('CandidatoCargoEleccion.json', 'w') as json_file:
+    json.dump(resultEduBasic, json_file)
+
+GetAllCargoEleccion()
