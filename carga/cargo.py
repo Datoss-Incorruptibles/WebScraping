@@ -12,7 +12,7 @@ data = (
 cur = con.cursor()
 cur.executemany("INSERT INTO cargo(id, cargo, estado, usuario_registro) VALUES(%s, %s, %s, %s)",data)
 con.commit()
-
 con.close()
+
 
 
