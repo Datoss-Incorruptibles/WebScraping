@@ -1,0 +1,26 @@
+
+
+
+
+idSolicitudLista:21645
+idExpediente:65963
+
+
+https://plataformaelectoral.jne.gob.pe/Candidato/GetCandidatos/1-110-22865-90701
+
+https://plataformaelectoral.jne.gob.pe/Candidato/GetCandidatos/2-110-22597-90569
+
+https://plataformaelectoral.jne.gob.pe/Candidato/GetCandidatos/3-110-22920-91065
+
+
+
+
+idHojaVida:135685
+0 -> Default
+idOrganizacionPolitica:2840
+idProceso:108  -> idProcesoElectoral
+
+https://plataformaelectoral.jne.gob.pe/HojaVida/GetHVConsolidado?param=135685-0-2840-110
+
+https://plataformaelectoral.jne.gob.pe/HojaVida/GetHVConsolidado?param=137757-0-179-110
+
