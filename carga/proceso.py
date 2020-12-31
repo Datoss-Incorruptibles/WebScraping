@@ -1,11 +1,11 @@
 import psycopg2
-from connexion import connect_db_target, connect_db_origin
+from connexion import connect_db
 
 def insert_proceso_target():
     try: 
-        con = connect_db_target()
+        con = connect_db()
         cur = con.cursor()
-        data = (' D.S.N.°165-2019-PCM',1,108) # change per 2021 process 
+        data = ('ELECCIONES GENERALES 2021',1,110) # change per 2021 process 
         cur.execute("INSERT INTO proceso(nombre, estado, jne_idproceso) \
                     values(%s, %s, %s)", data)
         con.commit()

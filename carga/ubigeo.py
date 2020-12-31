@@ -1,23 +1,18 @@
 import psycopg2
-from connexion import connect_db_target, connect_db_origin
+from connexion import connect_db
 
-def get_ubigeo_origin():
-    con = connect_db_origin()
-    cur = con.cursor()
-    cur.execute("SELECT cie.strubigeopostula, cie.strregion, cie.strdistritoelec \
-        FROM candidato_info_electoral cie GROUP BY  cie.strregion, cie.strdistritoelec, cie.strubigeopostula")
-    
-    lst_ubigeo = cur.fetchall()
-    con.close()
-    return lst_ubigeo
     
 def insert_ubigeo_target():
     try: 
-        con = connect_db_target()
+        con = connect_db()
         cur = con.cursor()
-        lst_ubigeo = get_ubigeo_origin()
-        cur.executemany("INSERT INTO ubigeo(ubigeo, region, distrito_electoral) \
-                        values(%s, %s, %s)", lst_ubigeo)
+        cur.execute("""
+            INSERT INTO ubigeo(ubigeo, region, distrito_electoral)
+            select cie.strubigeopostula, cie.strubiregionpostula,  cip.strpostuladistrito 
+            from jne.candidato_info_electoral cie 
+            join jne.candidato_info_personal cip on cip.idcandidato = cie.idcandidato and cip.idhojavida = cie.idhojavida
+            where cie.strubigeopostula <> ''
+            group by cie.strubigeopostula, cie.strubiregionpostula,  cip.strpostuladistrito;""")
         con.commit()
         con.close()
         print("Ubigeo inserts success!")

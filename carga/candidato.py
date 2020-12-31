@@ -1,38 +1,30 @@
 import psycopg2
-from connexion import connect_db_target, connect_db_origin
-
-def get_candidato_origin():
-    con = connect_db_origin()
-    cur = con.cursor()
-    query= "select cip.idcandidato, cip.idhojavida,  op.strestadolista,cie.strestadoexp,\
-            cip.strhojavida, cie.intposicion,cie.strorganizacionpolitica, \
-            4 cargo_id, prc.id proceso, opn.id organizacion_politica_id, \
-            cip.strdocumentoidentidad, cip.strapellidopaterno, cip.strapellidomaterno, \
-            cip.strnombres,TO_DATE(cip.strfechanacimiento,'DD/MM/YYYY'), '' profesion, \
-            cie.strregion, cie.strdistritoelec, cie.strubigeopostula, cip.strrutaarchivo \
-            from candidato_info_personal cip join candidato_info_electoral cie on \
-            cip.strdocumentoidentidad = cie.strdocumentoidentidad   join organizacion_politica op \
-            on op.idexpediente = cie.idexpediente join _organizacion_politica opn on \
-            op.idorganizacionpolitica = jne_idorganizacionpolitica join _proceso prc on \
-            prc.jne_idproceso = cie.idprocesoelectoral"
-    cur.execute(query)
-    data = cur.fetchall() 
-#    for candidato in data:
-#        print(candidato)
-    con.close()
-    return data
+from connexion import connect_db
 
 def insert_candidato_target():
     try: 
-        con = connect_db_target()
+        con = connect_db()
         cur = con.cursor()
-        data = get_candidato_origin()
-        cur.executemany("INSERT INTO candidato(jne_idcandidato, jne_idhojavida, \
-                        jne_estado_lista, jne_estado_expediente, jne_estado_hojavida, jne_posicion, \
-                        jne_organizacion_politica,cargo_id, proceso_id, organizacion_politica_id, \
-                        documento_identidad, apellido_paterno, apellido_materno, nombres, fecha_nacimiento, \
-                        profesion, region, distrito_electoral, ubigeo_postula, ruta_archivo) \
-                        values(%s, %s, %s,%s, %s, %s,%s, %s, %s,%s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s)", data)
+        query = """
+            INSERT INTO public.candidato(jne_idcandidato, jne_idhojavida, jne_estado_lista, 
+            jne_estado_expediente, jne_estado_hojavida, jne_posicion, jne_organizacion_politica,
+            cargo_id, proceso_id, organizacion_politica_id, documento_identidad, apellido_paterno, 
+            apellido_materno, nombres, fecha_nacimiento, profesion, region, distrito_electoral, 
+            ubigeo_postula, ruta_archivo)
+            SELECT cip.idcandidato, cip.idhojavida, op.strestadolista,cie.strestadoexp, 
+            cip.strhojavida, cie.intposicion,opn.nombre, cie.idcargoeleccion, prc.id as procesoid, opn.id, 
+            cip.strdocumentoidentidad, cip.strapellidopaterno, cip.strapellidomaterno, 
+            cip.strnombres,TO_DATE(cip.strfechanacimiento,'DD/MM/YYYY'), '' profesion,
+            cie.strubiregionpostula, cip.strpostuladistrito, cie.strubigeopostula, cip.strrutaarchivo
+            FROM jne.candidato_info_personal cip 
+            join jne.candidato_info_electoral cie on cip.strdocumentoidentidad = cie.strdocumentoidentidad 
+                and cip.idcandidato = cie.idcandidato
+            join jne.organizacion_politica_region op on op.idorganizacionpolitica = cie.idorganizacionpolitica 
+                and op.idsolicitudlista = cie.idsolicitudlista
+            join organizacion_politica opn on op.idorganizacionpolitica = jne_idorganizacionpolitica 
+            left join proceso prc on prc.jne_idproceso = cie.idprocesoelectoral;
+        """
+        cur.execute(query)
         con.commit()
         con.close()
         print("Candidato inserts success!")

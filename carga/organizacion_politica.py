@@ -1,22 +1,14 @@
 import psycopg2
-from connexion import connect_db_target, connect_db_origin
+from connexion import connect_db
 
-def get_organizacion_origin():
-    con = connect_db_origin()
-    cur = con.cursor()
-    cur.execute("select strorganizacionpolitica, 0, 1,'','', idorganizacionpolitica \
-                from organizacion_politica group by idorganizacionpolitica, strorganizacionpolitica")
-    data = cur.fetchall()
-    con.close()
-    return data
 def insert_organizacion_target():
     try: 
-        con = connect_db_target()
+        con = connect_db()
         cur = con.cursor()
-        data = get_organizacion_origin()
-        cur.executemany("INSERT INTO organizacion_politica(nombre, fundacion_anio, estado,\
-                        descripcion, ruta_archivo, jne_idorganizacionpolitica) \
-                        values(%s, %s, %s, %s, %s, %s)", data)
+        cur.execute("""INSERT INTO public.organizacion_politica(nombre, fundacion_anio, estado, \
+            descripcion, ruta_archivo, jne_idorganizacionpolitica) \
+	        select strorganizacionpolitica, 0, 1,'','', idorganizacionpolitica from jne.organizacion_politica_region \
+            group by idorganizacionpolitica, strorganizacionpolitica""")
         con.commit()
         con.close()
         print ("Organizacion Politica inserts success!")

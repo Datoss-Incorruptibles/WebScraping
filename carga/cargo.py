@@ -1,18 +1,23 @@
-from connexion import connect_db_target
+import psycopg2
+from connexion import connect_db
 
-con = connect_db_target()
+def insert_cargo_target():
+    try: 
+        con = connect_db()
+        cur = con.cursor()
+        cur.execute("INSERT INTO cargo(id, cargo, estado) \
+            select idcargoeleccion, strcargoeleccion, 1  from jne.candidato_info_electoral \
+            group by idcargoeleccion,strcargoeleccion")
+        con.commit()
+        con.close()
+        print("Cargo inserts success!")
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while fetching data", error)
 
-data = (
-    [1,'Presidente',1,"automático"],
-    [2,'1er Vicepresidente',1,'automático'],
-    [3,'2do Vicepresidente',1,'automático'],
-    [4,'Congresista',1,'automático'],
-)
+    finally:
+        if(con):
+            cur.close()
+            con.close()            
 
-cur = con.cursor()
-cur.executemany("INSERT INTO cargo(id, cargo, estado, usuario_registro) VALUES(%s, %s, %s, %s)",data)
-con.commit()
-con.close()
-
-
-
+if __name__ == "__main__":
+    insert_cargo_target()
