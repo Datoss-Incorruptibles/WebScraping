@@ -1,5 +1,5 @@
 import psycopg2
-from connexion import connect_db
+from database import connect_db
 
 def insert_cargo_target():
     try: 
