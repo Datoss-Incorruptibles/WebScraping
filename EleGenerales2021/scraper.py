@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import json
 import sys
+import datetime
 
 import schedule
 import time
@@ -14,6 +15,8 @@ from urllib3.util.retry import Retry
 
 
 def GetExpedientesLista():
+  print(f'START getting Data to expedientesLista.json at {datetime.datetime.now()}')
+
   idPresidentes = 1
   idCongresistas = 2
   idParlamentoAndino = 3
@@ -38,16 +41,18 @@ def GetExpedientesLista():
   for data in dataAll:
     data["idProcesoElectoral"] = idProcesoElectoral
 
-  print("Get Data to expedientesLista.json")
 
   with open('./currentRawData/GetExpedientesLista.json', 'w') as json_file:
     json.dump(dataAll, json_file)
+  print(f'END getting expedientesLista at :{datetime.datetime.now()}')
 
 
 
 
 
 def GetCandidatos():
+  print(f'Start getting Data to GetCandidatos.json at {datetime.datetime.now()}')
+
   with open(f'./currentRawData/GetExpedientesLista.json', 'r', encoding='utf-8')as outFile:
     doc = outFile.read()
     # print(doc)
@@ -58,7 +63,6 @@ def GetCandidatos():
     idProcesoElectoral = 110
 
 
-  print("Get Data :GetCandidatos.jon")
   counter = 0
   listaDeCandidatosFinal = []
   PARTIDOSPOLITICOSBYREGION
@@ -91,17 +95,20 @@ def GetCandidatos():
         except:
           print("No hay candidato")
         counter = counter + 1
-        print(counter)
+        # print(counter)
 
   with open('./currentRawData/GetCandidatos.json', 'w') as json_file:
     json.dump(listaDeCandidatosFinal, json_file)
   
+  print(f'End getting GetCandidatos at:{datetime.datetime.now()}')
 
 
 
 
 
 def GetPersonalData():
+  print(f'Start getting Data to CandidatoDatosHV.json at {datetime.datetime.now()}')
+
   with open(f'./currentRawData/GetCandidatos.json', 'r', encoding='utf-8')as outFile:
     doc = outFile.read()
     arrayCandidatos = json.loads(str(doc))
@@ -126,31 +133,33 @@ def GetPersonalData():
           data = r.json()
           candidatoHV = data["data"]
           counter = counter + 1
-          print(counter)
           canditadosHVDatos.append(candidatoHV)
           idHojasDeVida.append(CANDIDATO["idHojaVida"])
 
         except:
           print("CRASH OBTENIENDO LA HOJA DE VIDA")
       
-    with open('./currentRawData/CandidatoDatosHV2.json', 'w') as json_file:
+    with open('./currentRawData/CandidatoDatosHV.json', 'w') as json_file:
       json.dump(canditadosHVDatos, json_file)
+    print(f'END getting Data to CandidatoDatosHV.json at {datetime.datetime.now()}')
 
 
 
-# def job():
-#     print("Job start .... scraper")
-#     GetExpedientesLista()
-#     # GetCandidatos()
-#     # GetPersonalData()
+def job():
+    print("Job start .... scraper")
+    GetExpedientesLista()
+    GetCandidatos()
+    GetPersonalData()
+    print("Job END .... scraper")
 
-# # schedule.every(10).minutes.do(job)
-# # schedule.every().day.at("02:30").do(job)
+# schedule.every(55).minutes.at(":00").do(job)
+schedule.every().hour.at(":25").do(job)
+# schedule.every().day.at("02:30").do(job)
 # schedule.every().minute.at(":50").do(job)
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
 
 
 
