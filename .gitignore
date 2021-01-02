@@ -7,9 +7,7 @@ venv/
 .vscode
 
 /othersScrapers
-/database
 /cleaning
-/carga
 
-/EleGenerales2021/
+/EleGenerales2021/database/test
 
