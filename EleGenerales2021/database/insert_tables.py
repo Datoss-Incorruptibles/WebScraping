@@ -1,14 +1,17 @@
 import crud as cd
 import json
+import datetime
 
 con = cd.connect_postgres()
 cur = con.cursor()
 
 def insertExpedientesLista():
+  print(f'START inserting to organizacion_politica_region at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
 
-  print("inserting ExpedienteLista")
+
   with open('../currentRawData/GetExpedientesLista.json','r', encoding='utf-8' ) as jsonfile:
       doc = jsonfile.read()
       arrayCandidatos = json.loads(str(doc))
@@ -35,15 +38,19 @@ def insertExpedientesLista():
               row["idPlanGobierno"],
               row["idProcesoElectoral"]))
           count+=1
-          print("insert row organizacion_politica_region",count," success!")
+          # print("insert row organizacion_politica_region",count," success!")
       con.commit()
 
+  print(f'END inserting to organizacion_politica_region at:{datetime.datetime.now()}')
 
 
 
 def insertGetCandidatos():
+  print(f'START inserting to candidato_info_electoral at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
+
 
   with open('../currentRawData/GetCandidatos.json','r', encoding='utf-8' ) as jsonfile:
       doc = jsonfile.read()
@@ -94,16 +101,17 @@ def insertGetCandidatos():
               row["idProcesoElectoral"]))
           count+=1
           # con.commit()
-          print("insert row candidato_info_electoral",count," success!")
+          # print("insert row candidato_info_electoral",count," success!")
       con.commit()
-
-
+  print(f'END inserting to candidato_info_electoral at:{datetime.datetime.now()}')
 
 
 
 
 
 def insertInfoPersonal():
+  print(f'START inserting to candidato_info_personal at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -157,13 +165,16 @@ def insertInfoPersonal():
               row["strUsuario"]))
           count+=1
           # con.commit()
-          print("insert row candidato_info_personal",count," success!")
+          # print("insert row candidato_info_personal",count," success!")
       con.commit()
 
+  print(f'END inserting to candidato_info_personal at:{datetime.datetime.now()}')
 
 
 
 def insertExpLab():
+  print(f'START inserting to candidato_exp_laboral at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -197,11 +208,14 @@ def insertExpLab():
               row["strUsuario"]))
           count+=1
           # con.commit()
-          print("insert row candidato_exp_laboral",count," success!")
+          # print("insert row candidato_exp_laboral",count," success!")
       con.commit()
+  print(f'END inserting to candidato_exp_laboral at:{datetime.datetime.now()}')
 
 
 def insertEduPostGrado():
+  print(f'START inserting to candidato_post_grado at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -230,13 +244,16 @@ def insertEduPostGrado():
               row["strUsuario"]))
           count+=1
           # con.commit()
-          print("insert row candidato_post_grado",count," success!")
+          # print("insert row candidato_post_grado",count," success!")
       con.commit()
+  print(f'END inserting to candidato_post_grado at:{datetime.datetime.now()}')
 
 
 
 
 def insertEduUni():
+  print(f'START inserting to candidato_edu_uni at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -271,10 +288,13 @@ def insertEduUni():
               row["strUsuario"]))
           count+=1
           # con.commit()
-          print("insert row candidato_edu_uni",count," success!")
+          # print("insert row candidato_edu_uni",count," success!")
       con.commit()
+  print(f'END inserting to candidato_edu_uni at:{datetime.datetime.now()}')
 
 def insertEduTecnica():
+  print(f'START inserting to candidato_edu_tecnica at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -300,15 +320,17 @@ def insertEduTecnica():
                 ))
             count+=1
             # con.commit()
-            print("insert row candidato_edu_tecnica",count," success!")
+            # print("insert row candidato_edu_tecnica",count," success!")
       con.commit()
-  print("candidato_edu_tecnica END")
+  print(f'END inserting to candidato_edu_tecnica at:{datetime.datetime.now()}')
 
 
 
 
 
 def insertEduNoUni():
+  print(f'START inserting to candidato_edu_no_uni at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -332,13 +354,15 @@ def insertEduNoUni():
               ))
           count+=1
           # con.commit()
-          print("insert row candidato_edu_no_uni",count," success!")
+          # print("insert row candidato_edu_no_uni",count," success!")
       con.commit()
-  print("candidato_edu_no_uni end")
 
+  print(f'END inserting to candidato_edu_no_uni at:{datetime.datetime.now()}')
 
 
 def insertEduBasic():
+  print(f'START inserting to candidato_edu_basic at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -364,13 +388,16 @@ def insertEduBasic():
               ))
           count+=1
           # con.commit()
-          print("insert row candidato_edu_basic",count," success!")
+          # print("insert row candidato_edu_basic",count," success!")
       con.commit()
+  print(f'END inserting to candidato_edu_basic at:{datetime.datetime.now()}')
 
-  print("candidato_edu_basic end")
 
 
 def insertSentPenal():
+
+  print(f'END inserting to candidato_sent_penal at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -405,10 +432,16 @@ def insertSentPenal():
               ))
           count+=1
           # con.commit()
-          print("insert row candidato_sent_penal",count," success!")
+          # print("insert row candidato_sent_penal",count," success!")
       con.commit()
 
+  print(f'END inserting to candidato_sent_penal at:{datetime.datetime.now()}')
+
+
+
 def insertSentCivil():
+  print(f'START inserting to candidato_sent_civil at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -439,10 +472,13 @@ def insertSentCivil():
               ))
           count+=1
           # con.commit()
-          print("insert row candidato_sent_civil",count," success!")
+          # print("insert row candidato_sent_civil",count," success!")
       con.commit()
+  print(f'END inserting to candidato_sent_civil at:{datetime.datetime.now()}')
 
 def insertCargoPartidario():
+  print(f'START inserting to candidato_cargo_partidario at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -471,11 +507,17 @@ def insertCargoPartidario():
               ))
           count+=1
           # con.commit()
-          print("insert row candidato_cargo_partidario",count," success!")
+          # print("insert row candidato_cargo_partidario",count," success!")
       con.commit()
+
+  print(f'END inserting to candidato_cargo_partidario at:{datetime.datetime.now()}')
+
+
 
 
 def insertCargoEleccion():
+  print(f'START inserting to candidato_cargo_eleccion at:{datetime.datetime.now()}')
+
   con = cd.connect_postgres()
   cur = con.cursor()
   with open('../currentRawData/CandidatoDatosHV.json','r', encoding='utf-8' ) as jsonfile:
@@ -505,8 +547,9 @@ def insertCargoEleccion():
               ))
           count+=1
           # con.commit()
-          print("insert row candidato_cargo_eleccion",count," success!")
+          # print("insert row candidato_cargo_eleccion",count," success!")
       con.commit()
+  print(f'END inserting to candidato_cargo_eleccion at:{datetime.datetime.now()}')
 
 
 
