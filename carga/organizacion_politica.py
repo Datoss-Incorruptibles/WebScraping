@@ -5,10 +5,16 @@ def insert_organizacion_target():
     try: 
         con = connect_db()
         cur = con.cursor()
-        cur.execute("""INSERT INTO public.organizacion_politica(nombre, fundacion_anio, estado, \
-            descripcion, ruta_archivo, jne_idorganizacionpolitica) \
-	        select strorganizacionpolitica, 0, 1,'','', idorganizacionpolitica from jne.organizacion_politica_region \
-            group by idorganizacionpolitica, strorganizacionpolitica""")
+
+        query = """
+            INSERT INTO public.organizacion_politica(nombre, fundacion_fecha, estado, 
+            descripcion, ruta_archivo, jne_idorganizacionpolitica, url) 
+	        select strorganizacionpolitica, null, 1,'', 
+            CONCAT('https://aplicaciones007.jne.gob.pe/srop_publico/Consulta/Simbolo/GetSimbolo/', idorganizacionpolitica),
+            idorganizacionpolitica, '' from jne.organizacion_politica_region 
+            group by idorganizacionpolitica, strorganizacionpolitica
+        """
+        cur.execute(query)
         con.commit()
         con.close()
         print ("Organizacion Politica inserts success!")
