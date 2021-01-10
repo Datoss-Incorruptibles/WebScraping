@@ -16,9 +16,9 @@ def insert_indicador_categoria_organizacion_target():
             and nivel_estudio_id_max is not null
             group by op.id , ic.id
             order by 1;
-        """
 
-        query2 = """
+            -- Sentencias 
+
             INSERT INTO public.indicador_categoria_organizacion(
             indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
             
@@ -38,10 +38,8 @@ def insert_indicador_categoria_organizacion_target():
             where cj.tipo_proceso = 'penal' and  ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
             group by 3, op.id, indicador_categoria_id;   
 
-        """
+            -- Trayectoria 
 
-        query3 = """
-            
             INSERT INTO public.indicador_categoria_organizacion(
                 indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
                 
@@ -53,9 +51,8 @@ def insert_indicador_categoria_organizacion_target():
             where tipo = 3 and  ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
             group by 2,3;
 
-        """
+            -- Congreso actual 
 
-        query4 = """
             INSERT INTO public.indicador_categoria_organizacion
             (indicador_id, indicador_categoria_id, organizacion_id,  cantidad, porcentaje, alerta, estado)
 
@@ -78,14 +75,71 @@ def insert_indicador_categoria_organizacion_target():
             select 4, ( select id from indicador_categoria where indicador_id=4 and "order" = 1) 
             ,op.id,9,7.40,0,1 from organizacion_politica op where op.jne_idorganizacionpolitica = 2840;
 
-        """
-        cur.execute(query)
-        cur.execute(query2)
-        cur.execute(query3)
-        cur.execute(query4)
-        con.commit()
+            -- trayectoria politica reducida 
 
+            INSERT INTO public.indicador_categoria_organizacion
+            (indicador_id, indicador_categoria_id, organizacion_id,  cantidad, porcentaje, alerta, estado)
+
+            select  ic2.indicador_id, ic2.id, a.organizacion_id, a.cantidad, 0, 0,1 
+            from (
+            select organizacion_id, 
+            case when ic.order in (10) then 1
+                when ic.order in (11,18) then 2
+                when ic.order in (16) then 3		
+                when ic.order in (5,6) then 4 
+                when ic.order in (8) then 5 
+                when ic.order in (9) then 6 
+                when ic.order in (19) then 7		
+                when ic.order in (17) then 8	
+                when ic.order in (2,3,4) then 9 
+                when ic.order in (12,13,14,15) then 10		
+                when ic.order in (7) then 11 	
+                when ic.order in (1) then 12 	
+            else 0
+            end order_new
+            , sum (ico.cantidad) cantidad
+            from indicador_categoria_organizacion ico 
+            join indicador_categoria ic on ico.indicador_categoria_id = ic.id
+            where ic.indicador_id = 2 
+            group by 1 ,2
+            ) a join indicador_categoria ic2 on ic2.order = a.order_new 
+            where ic2.indicador_id =5;
+
+            -- Vacancia vizcarra 
         
+            INSERT INTO public.indicador_categoria_organizacion
+            (indicador_id, indicador_categoria_id, organizacion_id,  cantidad, porcentaje, alerta, estado)
+
+            select 6, ic.id , op.id , 18,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=1 union
+            select 6, ic.id , op.id , 20,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=1 union
+            select 6, ic.id , op.id , 15,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=1 union
+            select 6, ic.id , op.id , 14,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=1 union
+            select 6, ic.id , op.id , 12,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=1 union
+            select 6, ic.id , op.id , 10,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=1 union
+            select 6, ic.id , op.id , 7,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=1 union
+            select 6, ic.id , op.id , 6,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=1 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=1 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=2 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=2 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=2 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=2 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=2 union
+            select 6, ic.id , op.id , 1,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=2 union
+            select 6, ic.id , op.id , 2,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=2 union
+            select 6, ic.id , op.id , 2,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=2 union
+            select 6, ic.id , op.id , 9,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=2 union
+            select 6, ic.id , op.id , 2,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=3 union
+            select 6, ic.id , op.id , 1,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=3;
+        """ 
+        cur.execute(query)
+        con.commit()
         con.close()
         print ("Indicador categoria organizacion inserts success!")
     except (Exception, psycopg2.Error) as error :

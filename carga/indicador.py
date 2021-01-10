@@ -6,14 +6,13 @@ def insert_indicador_target():
         con = connect_db()
         cur = con.cursor()
         query = """
-            INSERT INTO public.indicador( id, nombre, alerta, estado )
-            select 1, 'Máximo nivel estudio', 0, 1
-            union
-            select 2, 'Trayectoria politica',0,1
-            union
-            select 3, 'Procesos Judiciales',1,1
-            union
-            select 4, 'Congreso Actual',0,1
+            INSERT INTO public.indicador( id, nombre, titulo, ubicacion, alerta, estado )
+            select 1, 'Máximo nivel estudio', 'Estudios', 1 , 0, 1 union 
+            select 2, 'Trayectoria politica','Trayectoria Politica', 1,0,0  union 
+            select 3, 'Procesos Judiciales','Sentencias', 1, 1,1 union 
+            select 4, 'Congreso Actual','Representación Congreso Actual',1 ,0,1 union 
+            select 5, 'Trayectoria política reducido','Trayectoria Política',1, 0,1  union 
+            select 6, 'Votación vacancia Vizcarra','Votación vacancia Vizcarra',1, 0,1;
         """
         cur.execute(query)
         con.commit()

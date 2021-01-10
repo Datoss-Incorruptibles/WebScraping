@@ -18,29 +18,42 @@ def insert_indicador_categoria_target():
             select 1, 5, 'Universitario',0,1
             union
             select 1, 6, 'Post grado',0,1;
-        """
 
-        query2 = """
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             select 2, ROW_NUMBER () OVER (ORDER BY ocupacion_profesion), ocupacion_profesion, 0, 1 
             from candidato_experiencia where tipo = 3 group by ocupacion_profesion order by 2;
-        """
 
-        query3 = """
             INSERT INTO public.indicador_categoria( indicador_id, "order", nombre, alerta, estado)
-            SELECT 3, 1, 'Civil', 1,1
+            select 3, 1, 'Sentencias Civiles', 1,1
             union
-            select 3, 2, 'Penal', 1,1;
-        """
+            select 3, 2, 'Sentencias Penales', 1,1;
 
-        query4 = """
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
-            SELECT 4,1, 'Congreso actual', 0, 1;
+            select 4,1, 'Representación en el congreso actual', 0, 1;
+
+            INSERT INTO indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+
+            select 5, 1, 'Presidente',0,1 union
+            select 5, 2, 'Vicepresidente',0,1 union
+            select 5, 3, 'Parlamento Andino',0,1 union
+            select 5, 4, 'Congresista',0,1 union
+            select 5, 5, 'Diputado',0,1 union
+            select 5, 6, 'Gobernador',0,1 union
+            select 5, 7, 'Vicegobernador',0,1 union
+            select 5, 8, 'Asamblea Regional',0,1 union
+            select 5, 9, 'Alcalde',0,1 union
+            select 5, 10, 'Regidor',0,1 union
+            select 5, 11, 'Consejero',0,1 union
+            select 5, 12, 'Accesitario', 0, 1;
+
+            INSERT INTO indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+            select 6, 1, 'Vacancia a Vizcarra: A favor',1,1 union
+            select 6, 2, 'En contra',0,1 union
+            select 6, 3, 'Abstención',0,1;
+
         """
         cur.execute(query)
-        cur.execute(query2)
-        cur.execute(query3)
-        cur.execute(query4)
+       
         con.commit()
 
         
