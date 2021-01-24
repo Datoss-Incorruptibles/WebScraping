@@ -46,28 +46,102 @@ def update_candidato_target():
         cur = con.cursor()
 
         query = """
-            update candidato c set nivel_estudio_id_max = ne.nivel_estudio_id 
-            from (
-                select ca.jne_idcandidato, ca.jne_idhojavida,
-                cast(max(ce.nivel_estudio_id) as integer) nivel_estudio_id
-                from candidato_estudio ce 
-                left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
-                where ce.nivel_estudio_estado <> 'NO CONCLUIDO'
-                group by ca.jne_idcandidato, ca.jne_idhojavida 
+            update candidato ca  set nivel_estudio_id_max = ne.nivel_estudio_id 
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida,
+            cast(max(ce.nivel_estudio_id) as integer) nivel_estudio_id
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ce.nivel_estudio_estado <> 'NO CONCLUIDO'
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
             ) ne
-            where c.jne_idcandidato = ne.jne_idcandidato and c.jne_idhojavida = ne.jne_idhojavida;
+            where ca.jne_idcandidato = ne.jne_idcandidato and ca.jne_idhojavida = ne.jne_idhojavida
         """
         query2 = """
-            update candidato c set profesion = pr.profesion
-            from (
-                select ca.jne_idcandidato, ca.jne_idhojavida,
-                STRING_AGG (estudio, ',') profesion 
-                from candidato_estudio ce 
-                left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida 
-                where ce.nivel_estudio_estado in ('BACHILLER', 'UNIVERSITARIO','MAGISTER', 'DOCTOR') 
-                group by ca.jne_idcandidato, ca.jne_idhojavida 
-            ) pr 
-            where c.jne_idcandidato = pr.jne_idcandidato and c.jne_idhojavida = pr.jne_idhojavida;
+            update candidato ca  set profesion = pr.profesion
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida, STRING_AGG (estudio, ' ') profesion
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ca.nivel_estudio_id_max in (4) and  ce.nivel_estudio_estado in ('CONCLUIDO') 
+            AND CE.NIVEL_ESTUDIO_ID NOT IN ('1','2')
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
+            ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+
+            update candidato ca  set profesion = pr.profesion
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida, STRING_AGG (estudio, ' ') profesion
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ca.nivel_estudio_id_max in (3) and  ce.nivel_estudio_estado in ('CONCLUIDO')
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
+            ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+
+            update candidato ca  set profesion = pr.profesion
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida, 'SECUNDARIA' profesion
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ca.nivel_estudio_id_max in (2) and  ce.nivel_estudio_estado in ('CONCLUIDO')
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
+            ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+
+            update candidato ca  set profesion = pr.profesion
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida, 'PRIMARIA' profesion
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ca.nivel_estudio_id_max in (1) and  ce.nivel_estudio_estado in ('CONCLUIDO')
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
+            ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+
+            update candidato ca  set profesion = pr.profesion
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida, STRING_AGG (estudio || ' ' || ce.nivel_estudio_estado, ',') profesion
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ca.nivel_estudio_id_max in (5) AND CE.NIVEL_ESTUDIO_ID NOT IN ('1','2', '3', '4')
+                and ce.nivel_estudio_estado NOT in ('BACHILLER','UNIVERSITARIO') AND ce.nivel_estudio_estado IN ('EGRESADO','CONCLUIDO')
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
+            ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+
+            update candidato ca  set profesion = pr.profesion
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida, STRING_AGG (estudio || ' ' || ce.nivel_estudio_estado, ',') profesion
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ca.nivel_estudio_id_max in (6) AND CE.NIVEL_ESTUDIO_ID NOT IN ('1','2', '3', '4') and CE.NIVEL_ESTUDIO_ID = '6'
+                and ce.nivel_estudio_estado NOT in ('UNIVERSITARIO', 'MAGISTER', 'DOCTOR') AND ce.nivel_estudio_estado IN ('EGRESADO','CONCLUIDO')
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
+            ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+
+            update candidato ca  set profesion = pr.profesion
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida, STRING_AGG (estudio, ',') profesion
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ca.nivel_estudio_id_max in (6) and  ce.nivel_estudio_estado in ('UNIVERSITARIO', 'MAGISTER', 'DOCTOR', 'TITULADO DOCTOR')
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
+            ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+
+            update candidato ca  set profesion = pr.profesion
+            from
+            (
+            select ca.jne_idcandidato, ca.jne_idhojavida, STRING_AGG (estudio, ',') profesion
+            from candidato_estudio ce 
+            left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
+            where ca.nivel_estudio_id_max in (5) and  ce.nivel_estudio_estado in ('BACHILLER','UNIVERSITARIO')
+            group by ca.jne_idcandidato, ca.jne_idhojavida 
+            ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+            
          """
         cur.execute(query)
         cur.execute(query2)

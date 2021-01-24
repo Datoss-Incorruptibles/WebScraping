@@ -1,0 +1,24 @@
+from database import add_default_date_value
+from proceso import insert_proceso_target
+from ubigeo import insert_ubigeo_target
+from cargo import insert_cargo_target
+from organizacion_politica import insert_organizacion_target
+from estudio import insert_estudio_target
+from institucion import insert_institucion_target
+from candidato import insert_candidato_target, update_candidato_target
+from candidato_judicial import insert_candidato_judicial_target
+from candidato_estudio import insert_candidato_estudio_target
+from candidato_experiencia import insert_candidato_experiencia_target
+from indicador import insert_indicador_target
+from indicador_categoria import insert_indicador_categoria_target
+from indicador_categoria_organizacion import insert_indicador_categoria_organizacion_target
+from indicador_categoria_candidato import insert_indicador_categoria_candidato_target
+
+
+add_default_date_value()
+
+
+insert_indicador_target()
+insert_indicador_categoria_target()
+insert_indicador_categoria_organizacion_target()
+insert_indicador_categoria_candidato_target()

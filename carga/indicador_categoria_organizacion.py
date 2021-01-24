@@ -110,33 +110,59 @@ def insert_indicador_categoria_organizacion_target():
             INSERT INTO public.indicador_categoria_organizacion
             (indicador_id, indicador_categoria_id, organizacion_id,  cantidad, porcentaje, alerta, estado)
 
-            select 6, ic.id , op.id , 18,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=1 union
-            select 6, ic.id , op.id , 20,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=1 union
-            select 6, ic.id , op.id , 15,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=1 union
-            select 6, ic.id , op.id , 14,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=1 union
-            select 6, ic.id , op.id , 12,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=1 union
-            select 6, ic.id , op.id , 10,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=1 union
-            select 6, ic.id , op.id , 7,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=1 union
-            select 6, ic.id , op.id , 6,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=1 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=1 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=2 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=2 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=2 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=2 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=2 union
-            select 6, ic.id , op.id , 1,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=2 union
-            select 6, ic.id , op.id , 2,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=2 union
-            select 6, ic.id , op.id , 2,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=2 union
-            select 6, ic.id , op.id , 9,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=2 union
-            select 6, ic.id , op.id , 2,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=3 union
-            select 6, ic.id , op.id , 1,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=3 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=3 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=3 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=3 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=3 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=3 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=3 union
-            select 6, ic.id , op.id , 0,0,1,0 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=3;
+            select 6, ic.id , op.id , 18,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=1 union
+            select 6, ic.id , op.id , 20,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=1 union
+            select 6, ic.id , op.id , 15,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=1 union
+            select 6, ic.id , op.id , 14,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=1 union
+            select 6, ic.id , op.id , 12,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=1 union
+            select 6, ic.id , op.id , 10,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=1 union
+            select 6, ic.id , op.id , 7,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=1 union
+            select 6, ic.id , op.id , 6,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=1 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=1 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=2 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=2 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=2 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=2 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=2 union
+            select 6, ic.id , op.id , 1,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=2 union
+            select 6, ic.id , op.id , 2,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=2 union
+            select 6, ic.id , op.id , 2,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=2 union
+            select 6, ic.id , op.id , 9,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=2 union
+            select 6, ic.id , op.id , 2,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=4 and ic.order=3 union
+            select 6, ic.id , op.id , 1,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1257 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=1366 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2646 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=47 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2731 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=14 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=3 union
+            select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=3;
+
+            -- Indicador Ed. Superior organizacion
+
+            INSERT INTO public.indicador_categoria_organizacion(indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+
+            select 7 indicador_id, ico.organizacion_id organizacion_id, ic2.id, sum(cantidad) , 0,0,1
+            from indicador_categoria_organizacion ico 
+            join indicador_categoria ic on ic.id = ico.indicador_categoria_id
+            join indicador_categoria ic2 on ic2.indicador_id =  7
+            where ic.indicador_id = 1 and ic.order in (5,6)
+            group by 1,2,3
+            order by 1,2,3;
+    
+            -- Indicador indicador_categoria_organizacion_sentencia_civil
+
+            INSERT INTO public.indicador_categoria_organizacion(
+                indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+
+            select 8 indicador_id,  op.id organizacion_id, ic.id, count(distinct(ca.documento_identidad)) cantidad , 0,0,1
+            from candidato_judicial cj 
+            join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            left join sentencia s on s.nombre_origen = cj.sentencia
+            left join indicador_categoria ic on ic.nombre = s.nombre 
+            where cj.tipo_proceso in  ('civil') and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            group by 1, 2,3;
         """ 
         cur.execute(query)
         con.commit()

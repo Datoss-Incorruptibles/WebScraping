@@ -6,30 +6,39 @@ def insert_indicador_categoria_target():
         con = connect_db()
         cur = con.cursor()
         query = """
+            -- Indicador_categoria _nivel estudio
+            
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
-            select 1, 1, 'Educación primaria', 1, 1
-            union
-            select 1, 2, 'Educación secundaria',1,1
-            union
-            select 1, 3, 'Estudios técnicos',0,1
-            union
-            select 1, 4, 'Estudios no universitarios', 0,1
-            union
-            select 1, 5, 'Universitario',0,1
-            union
-            select 1, 6, 'Post grado',0,1;
+            select 1, 1, 'Primaria', 1, 1   union
+            select 1, 2, 'Secundaria',1,1  union
+            select 1, 3, 'Técnicos',0,1 union
+            select 1, 4, 'No univ.', 0,1  union
+            select 1, 5, 'Universitario',0,1 union
+            select 1, 6, 'Postgrado',0,1;
+
+            -- Indicador_categoria _trayectoria politica 
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+
             select 2, ROW_NUMBER () OVER (ORDER BY ocupacion_profesion), ocupacion_profesion, 0, 1 
             from candidato_experiencia where tipo = 3 group by ocupacion_profesion order by 2;
 
+            -- Indicador_categoria _sentencias
+
             INSERT INTO public.indicador_categoria( indicador_id, "order", nombre, alerta, estado)
+
             select 3, 1, 'Sentencias Civiles', 1,1
             union
             select 3, 2, 'Sentencias Penales', 1,1;
 
+            -- Indicador_categoria _congreso_actual
+
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+            
             select 4,1, 'Representación en el congreso actual', 0, 1;
+
+
+            -- Indicador Trayectoria política reducido
 
             INSERT INTO indicador_categoria(indicador_id, "order", nombre, alerta, estado)
 
@@ -45,12 +54,26 @@ def insert_indicador_categoria_target():
             select 5, 10, 'Regidor',0,1 union
             select 5, 11, 'Consejero',0,1 union
             select 5, 12, 'Accesitario', 0, 1;
+            
+            -- Indicador Votación vacancia Vizcarra
 
             INSERT INTO indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+            
             select 6, 1, 'Vacancia a Vizcarra: A favor',1,1 union
             select 6, 2, 'En contra',0,1 union
             select 6, 3, 'Abstención',0,1;
 
+            -- Indicador de educacion superior
+
+            INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+
+            select 7, 1, 'Ed. Superior', 1, 1;
+
+            -- tipos de sentencias civil
+
+            INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+
+            select 8, row_number() over (order by nombre), nombre, 1, 1 from sentencia where tipo_proceso = 'civil' group by nombre order by 1;
         """
         cur.execute(query)
        

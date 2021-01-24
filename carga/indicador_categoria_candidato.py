@@ -6,13 +6,14 @@ def insert_indicador_categoria_candidato_target():
         con = connect_db()
         cur = con.cursor()
         query = """
-            INSERT INTO public.indicador_categoria_candidato(indicador_id, 
-            candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
-            select 1 , ca.id, ca.nivel_estudio_id_max, 1, 0, 1, 1 
+            INSERT INTO public.indicador_categoria_candidato(
+            indicador_id,  candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+            select 1 , ca.id, ic.id, 1, 0, 1, 0
             from candidato ca
+            join indicador_categoria ic on ic.order = ca.nivel_estudio_id_max and ic.indicador_id = 1
             where ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
-            and nivel_estudio_id_max is not null  and nivel_estudio_id_max in (1,2);
-
+            and nivel_estudio_id_max is not null 
+            -- and nivel_estudio_id_max in (1,2);
         """
 
         query2 = """
