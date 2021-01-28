@@ -81,7 +81,10 @@ def add_default_date_value():
             alter table indicador_categoria alter column fecha_registro set default now();
             alter table indicador_categoria_organizacion alter column fecha_registro set default now();
             alter table indicador_categoria_candidato alter column fecha_registro set default now();
-            
+            alter table candidato_ingreso alter column fecha_registro set default now();
+            alter table candidato_inmueble alter column fecha_registro set default now();
+            alter table candidato_mueble alter column fecha_registro set default now();
+
         """
         cur.execute(query)
         con.commit()
