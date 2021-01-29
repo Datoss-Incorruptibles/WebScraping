@@ -23,14 +23,7 @@ def insert_indicador_categoria_target():
             select 2, ROW_NUMBER () OVER (ORDER BY ocupacion_profesion), ocupacion_profesion, 0, 1 
             from candidato_experiencia where tipo = 3 group by ocupacion_profesion order by 2;
 
-            -- Indicador_categoria _sentencias
-
-            INSERT INTO public.indicador_categoria( indicador_id, "order", nombre, alerta, estado)
-
-            select 3, 1, 'Sentencias Civiles', 1,1
-            union
-            select 3, 2, 'Sentencias Penales', 1,1;
-
+           
             -- Indicador_categoria _congreso_actual
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
@@ -69,11 +62,26 @@ def insert_indicador_categoria_target():
 
             select 7, 1, 'Ed. Superior', 1, 1;
 
-            -- tipos de sentencias civil
+            -- Indicador 8: Tipos de sentencias civil
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
 
             select 8, row_number() over (order by nombre), nombre, 1, 1 from sentencia where tipo_proceso = 'civil' group by nombre order by 1;
+
+            -- Indicador 9: Tipos de sentencias  penal
+
+            INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+            select 9, row_number() over (order by nombre), nombre, 1, 1 from sentencia where tipo_proceso = 'penal' group by nombre order by 1
+
+
+            -- Indicador 11:  Militantes en partidos anteriores 
+
+            INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+            select 11, 1, 'PARTIDOS ANTERIORES', 1, 1;
+
+
+
+
         """
         cur.execute(query)
        
