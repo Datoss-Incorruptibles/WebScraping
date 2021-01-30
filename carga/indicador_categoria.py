@@ -6,7 +6,7 @@ def insert_indicador_categoria_target():
         con = connect_db()
         cur = con.cursor()
         query = """
-            -- Indicador_categoria _nivel estudio
+            -- INDICADOR 1: categoria _nivel estudio
             
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             select 1, 1, 'Primaria', 1, 1   union
@@ -16,7 +16,7 @@ def insert_indicador_categoria_target():
             select 1, 5, 'Universitario',0,1 union
             select 1, 6, 'Postgrado',0,1;
 
-            -- Indicador_categoria _trayectoria politica 
+            -- INDICADOR 2: categoria _trayectoria politica 
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
 
@@ -24,14 +24,14 @@ def insert_indicador_categoria_target():
             from candidato_experiencia where tipo = 3 group by ocupacion_profesion order by 2;
 
            
-            -- Indicador_categoria _congreso_actual
+            -- INDICADOR 4: categoria _congreso_actual
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             
             select 4,1, 'Representación en el congreso actual', 0, 1;
 
 
-            -- Indicador Trayectoria política reducido
+            -- INDICADOR 5: Trayectoria política reducido
 
             INSERT INTO indicador_categoria(indicador_id, "order", nombre, alerta, estado)
 
@@ -48,7 +48,7 @@ def insert_indicador_categoria_target():
             select 5, 11, 'Consejero',0,1 union
             select 5, 12, 'Accesitario', 0, 1;
             
-            -- Indicador Votación vacancia Vizcarra
+            -- INDICADOR 6: Votación vacancia Vizcarra
 
             INSERT INTO indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             
@@ -56,25 +56,20 @@ def insert_indicador_categoria_target():
             select 6, 2, 'En contra',0,1 union
             select 6, 3, 'Abstención',0,1;
 
-            -- Indicador de educacion superior
 
-            INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
-
-            select 7, 1, 'Ed. Superior', 1, 1;
-
-            -- Indicador 8: Tipos de sentencias civil
+            -- INDICADOR 8: Tipos de sentencias civil
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
 
             select 8, row_number() over (order by nombre), nombre, 1, 1 from sentencia where tipo_proceso = 'civil' group by nombre order by 1;
 
-            -- Indicador 9: Tipos de sentencias  penal
+            -- INDICADOR 9: Tipos de sentencias  penal
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
-            select 9, row_number() over (order by nombre), nombre, 1, 1 from sentencia where tipo_proceso = 'penal' group by nombre order by 1
+            select 9, row_number() over (order by nombre), nombre, 1, 1 from sentencia where tipo_proceso = 'penal' group by nombre order by 1;
 
 
-            -- Indicador 11:  Militantes en partidos anteriores 
+            -- INDICADOR 11:  Militantes en partidos anteriores 
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             select 11, 1, 'PARTIDOS ANTERIORES', 1, 1;

@@ -65,8 +65,7 @@ def update_candidato_target():
             select ca.jne_idcandidato, ca.jne_idhojavida, STRING_AGG (estudio, ' ') profesion
             from candidato_estudio ce 
             left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
-            where ca.nivel_estudio_id_max in (4) and  ce.nivel_estudio_estado in ('CONCLUIDO') 
-            AND CE.NIVEL_ESTUDIO_ID NOT IN ('1','2')
+            where ca.nivel_estudio_id_max in (4) and  ce.nivel_estudio_estado in ('CONCLUIDO')  AND CE.NIVEL_ESTUDIO_ID NOT IN ('1','2')
             group by ca.jne_idcandidato, ca.jne_idhojavida 
             ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
 
@@ -111,6 +110,7 @@ def update_candidato_target():
             group by ca.jne_idcandidato, ca.jne_idhojavida 
             ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
 
+
             update candidato ca  set profesion = pr.profesion
             from
             (
@@ -141,6 +141,7 @@ def update_candidato_target():
             where ca.nivel_estudio_id_max in (5) and  ce.nivel_estudio_estado in ('BACHILLER','UNIVERSITARIO')
             group by ca.jne_idcandidato, ca.jne_idhojavida 
             ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
+
             
          """
         cur.execute(query)

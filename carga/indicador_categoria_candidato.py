@@ -12,27 +12,11 @@ def insert_indicador_categoria_candidato_target():
             from candidato ca
             join indicador_categoria ic on ic.order = ca.nivel_estudio_id_max and ic.indicador_id = 1
             where ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
-            and nivel_estudio_id_max is not null 
+            and nivel_estudio_id_max is not null ;
             -- and nivel_estudio_id_max in (1,2);
         """
 
-        query2 = """
-            select 3 ,  ca.id,  ( select id from indicador_categoria where indicador_id=3 and "order" = 1) , count(*)  , 0,1,1
-            from candidato_judicial cj
-            join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
-            where cj.tipo_proceso = 'civil' and ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
-            group by  1,2,3 ,cj.tipo_proceso
-
-            union
-
-            select 3 ,  ca.id,   ( select id from indicador_categoria where indicador_id=3 and "order" = 2) , count(*)  , 0,1,1
-            from candidato_judicial cj
-            join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
-            where cj.tipo_proceso = 'penal' and  ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
-            group by  1,2,3 ,cj.tipo_proceso;
-        """
-
-        query3 = """ 
+        query2 = """ 
             INSERT INTO public.indicador_categoria_candidato(
             indicador_id,  candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
 
@@ -44,6 +28,48 @@ def insert_indicador_categoria_candidato_target():
             group by 2,3;
         """
        
+        query3 = """ 
+             -- INDICADOR 1: categoria _nivel estudio
+            INSERT INTO public.indicador_categoria_candidato(
+             indicador_id,  candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+            select 8,  ca.id,  ic.id , count(*)  , 0,1,1
+            from candidato_judicial cj 
+            join sentencia s on s.nombre_origen = cj.sentencia
+            join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            join indicador_categoria ic on ic.nombre = s.nombre and ic.indicador_id = 8
+            where cj.tipo_proceso = 'civil' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            group by 1,2,3;
+
+            -- Indicador 9: Sentencias penales
+
+            INSERT INTO public.indicador_categoria_candidato(
+              indicador_id,  candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+            select 9,  ca.id,  ic.id , count(*)  , 0,1,1
+            from candidato_judicial cj 
+            join sentencia s on s.nombre_origen = cj.sentencia
+            join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            join indicador_categoria ic on ic.nombre = s.nombre and ic.indicador_id = 9
+            where cj.tipo_proceso = 'penal' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            group by 1,2,3;
+
+            -- Militancia en partidos anteriores
+
+             INSERT INTO public.indicador_categoria_candidato(
+              indicador_id,  candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+            select 11,  ca.id,  ( select id from indicador_categoria where indicador_id=11 and "order" = 1) , count(*)  , 0,1,1
+            from candidato_experiencia ce
+            join candidato ca on ca.jne_idhojavida = ce.jne_idhojavida
+            left join indicador_categoria ic on ic.indicador_id = 11
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            where ce.tipo =2 and similarity(ce.centro_trabajo, op.nombre) < 0.5106383 
+            and similarity(ce.centro_trabajo, op.nombre) not in (0.46875,0.46153846,0.3888889)
+            group by 1,2;
+
+        """ 
+
+
         cur.execute(query)
         cur.execute(query2)
         cur.execute(query3)

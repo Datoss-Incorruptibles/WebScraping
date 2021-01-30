@@ -17,27 +17,7 @@ def insert_indicador_categoria_organizacion_target():
             group by op.id , ic.id
             order by 1;
 
-            -- Sentencias 
-
-            INSERT INTO public.indicador_categoria_organizacion(
-            indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
-            
-            select 3 indicador_id,  op.id organizacion_id, ( select id from indicador_categoria where indicador_id=3 and "order" = 1) indicador_categoria_id, count(*) cantidad , 0,0,1
-            from candidato_judicial cj 
-            join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
-            join organizacion_politica op on op.id = ca.organizacion_politica_id
-            where cj.tipo_proceso = 'civil' and ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
-            group by 3, op.id, indicador_categoria_id
-
-            union 
-
-            select 3 indicador_id,  op.id organizacion_id,  ( select id from indicador_categoria where indicador_id=3 and "order" = 2)  indicador_categoria_id, count(*) cantidad , 0,0,1
-            from candidato_judicial cj 
-            join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
-            join organizacion_politica op on op.id = ca.organizacion_politica_id
-            where cj.tipo_proceso = 'penal' and  ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
-            group by 3, op.id, indicador_categoria_id;   
-
+                   
             -- Trayectoria 
 
             INSERT INTO public.indicador_categoria_organizacion(
@@ -138,31 +118,53 @@ def insert_indicador_categoria_organizacion_target():
             select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2160 and ic.order=3 union
             select 6, ic.id , op.id , 0,0,1,1 from organizacion_politica op cross join indicador_categoria ic where ic.indicador_id = 6 and op.jne_idorganizacionpolitica=2840 and ic.order=3;
 
-            -- Indicador Ed. Superior organizacion
 
-            INSERT INTO public.indicador_categoria_organizacion(indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
-
-            select 7 indicador_id, ico.organizacion_id organizacion_id, ic2.id, sum(cantidad) , 0,0,1
-            from indicador_categoria_organizacion ico 
-            join indicador_categoria ic on ic.id = ico.indicador_categoria_id
-            join indicador_categoria ic2 on ic2.indicador_id =  7
-            where ic.indicador_id = 1 and ic.order in (5,6)
-            group by 1,2,3
-            order by 1,2,3;
     
-            -- Indicador indicador_categoria_organizacion_sentencia_civil
+            -- Indicador 8: indicador_categoria_organizacion_sentencia_civil
 
             INSERT INTO public.indicador_categoria_organizacion(
                 indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
 
-            select 8 indicador_id,  op.id organizacion_id, ic.id, count(distinct(ca.documento_identidad)) cantidad , 0,0,1
+            select 8, op.id, ic.id,  count(*), 0,1, 0
             from candidato_judicial cj 
+            join sentencia s on s.nombre_origen = cj.sentencia
             join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
-            left join sentencia s on s.nombre_origen = cj.sentencia
-            left join indicador_categoria ic on ic.nombre = s.nombre 
-            where cj.tipo_proceso in  ('civil') and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
-            group by 1, 2,3;
+            join indicador_categoria ic on ic.nombre = s.nombre and ic.indicador_id = 8
+            where cj.tipo_proceso = 'civil' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            group by 1,2,3;
+
+
+            -- Indicador 9: indicador_categoria_organizacion_sentencia_penal
+
+            INSERT INTO public.indicador_categoria_organizacion(
+                indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+
+            select 9, op.id, ic.id,  count(*), 0,1, 0
+            from candidato_judicial cj 
+            join sentencia s on s.nombre_origen = cj.sentencia
+            join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            join indicador_categoria ic on ic.nombre = s.nombre and ic.indicador_id = 9
+            where cj.tipo_proceso = 'penal' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            and op.id = 1
+            group by 1,2,3;
+
+
+            -- Indicador 11: Militantes en partidos anteriores
+
+            INSERT INTO public.indicador_categoria_organizacion(
+                indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+            select 11 indicador_id,  op.id organizacion_id, ic.id, count(distinct(ce.jne_idhojavida)) cantidad , 0,0,1
+            from candidato_experiencia ce
+            join candidato ca on ca.jne_idhojavida = ce.jne_idhojavida
+            left join indicador_categoria ic on ic.indicador_id = 11
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            where ce.tipo =2 and similarity(ce.centro_trabajo, op.nombre) < 0.5106383 
+            and similarity(ce.centro_trabajo, op.nombre) not in (0.46875,0.46153846,0.3888889)
+            group by 1,2,3  ;
+
+
         """ 
         cur.execute(query)
         con.commit()
