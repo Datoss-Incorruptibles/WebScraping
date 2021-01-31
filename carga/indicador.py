@@ -15,6 +15,7 @@ def insert_indicador_target():
                 select 7, 'Educación Superior', 'Educ. Superior',1,0,1 union
                 select 8, 'Tipos sentencias civil', 'Tipo Civil',1,0,1 union
                 select 9, 'Tipos sentencias penal', 'Tipo Penal',1,0,1 union
+                select 10, 'Ingresos promedios anuales', 'Ingresos', 1 , 0, 1 union                
                 select 11, 'PARTIDOS ANTERIORES', 'PARTIDOS ANTERIORES',1,0,1
 
         """

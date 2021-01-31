@@ -150,6 +150,20 @@ def insert_indicador_categoria_organizacion_target():
             and op.id = 1
             group by 1,2,3;
 
+            -- Indicador 10: Ingresos    
+
+            INSERT INTO public.indicador_categoria_organizacion(
+            indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+
+            select 10 indicador_id,  op.id organizacion_id, ic.id, count(distinct(ce.jne_idhojavida)) cantidad , 0,0,1
+            from candidato_experiencia ce
+            join candidato ca on ca.jne_idhojavida = ce.jne_idhojavida
+            left join indicador_categoria ic on ic.indicador_id = 11
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            where ce.tipo =2 and similarity(ce.centro_trabajo, op.nombre) < 0.5106383 
+            and similarity(ce.centro_trabajo, op.nombre) not in (0.46875,0.46153846,0.3888889)
+            group by 1,2,3  ;
+
 
             -- Indicador 11: Militantes en partidos anteriores
 

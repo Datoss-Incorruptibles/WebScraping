@@ -68,6 +68,12 @@ def insert_indicador_categoria_target():
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             select 9, row_number() over (order by nombre), nombre, 1, 1 from sentencia where tipo_proceso = 'penal' group by nombre order by 1;
 
+            -- Indicador 10:  Ingresos promedios anuales
+
+            INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+            select 10, 1, 'Ingresos Prom. Anual', 1, 1 union
+            select 10, 2, 'Inmuebles Prom. Anual', 1, 1 union
+            select 10, 3, 'Muebles Prom. Anual', 1, 1;
 
             -- INDICADOR 11:  Militantes en partidos anteriores 
 
