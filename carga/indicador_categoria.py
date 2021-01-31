@@ -52,7 +52,7 @@ def insert_indicador_categoria_target():
 
             INSERT INTO indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             
-            select 6, 1, 'Vacancia a Vizcarra: A favor',1,1 union
+            select 6, 1, 'A favor',1,1 union
             select 6, 2, 'En contra',0,1 union
             select 6, 3, 'Abstención',0,1;
 
