@@ -26,6 +26,9 @@ def clean_all_data():
             truncate table candidato_judicial;
             truncate table candidato cASCADE;
             truncate table indicador CASCADE;
+            truncate table candidato_mueble;
+            truncate table candidato_inmueble;
+            truncate table candidato_ingreso;
             ALTER SEQUENCE auth_group_id_seq                       RESTART WITH 1;
             ALTER SEQUENCE auth_group_permissions_id_seq           RESTART WITH 1;
             ALTER SEQUENCE auth_permission_id_seq                  RESTART WITH 1;
@@ -48,6 +51,10 @@ def clean_all_data():
             ALTER SEQUENCE institucion_id_seq                      RESTART WITH 1;
             ALTER SEQUENCE organizacion_politica_id_seq            RESTART WITH 1;
             ALTER SEQUENCE proceso_id_seq                          RESTART WITH 1;
+            ALTER SEQUENCE candidato_ingreso_id_seq                RESTART WITH 1;
+            ALTER SEQUENCE candidato_mueble_id_seq                RESTART WITH 1;
+            ALTER SEQUENCE candidato_inmueble_id_seq                RESTART WITH 1;
+
 
         """
         cur.execute(query)

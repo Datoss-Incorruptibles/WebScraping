@@ -13,6 +13,9 @@ from indicador import insert_indicador_target
 from indicador_categoria import insert_indicador_categoria_target
 from indicador_categoria_organizacion import insert_indicador_categoria_organizacion_target
 from indicador_categoria_candidato import insert_indicador_categoria_candidato_target
+from candidato_bien_mueble import insert_candidato_bien_muebles, update_candidato_bien_muebles
+from candidato_bien_inmueble import insert_candidato_bien_inmuebles
+from candidato_ingreso import insert_candidato_ingresos
 
 
 add_default_date_value()
@@ -32,3 +35,7 @@ insert_indicador_target()
 insert_indicador_categoria_target()
 insert_indicador_categoria_organizacion_target()
 insert_indicador_categoria_candidato_target()
+insert_candidato_bien_muebles()
+insert_candidato_bien_inmuebles()
+insert_candidato_ingresos()
+update_candidato_bien_muebles()
