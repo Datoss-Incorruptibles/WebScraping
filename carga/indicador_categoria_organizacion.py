@@ -199,9 +199,8 @@ def insert_indicador_categoria_organizacion_target():
 
             )
 
-
             INSERT INTO public.indicador_categoria_organizacion(
-                indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+            indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
             select 10, d.id , ic.id, round(avg(ingresos),0) , 0, 0, 1
             from datos d 
             join indicador_categoria ic on ic.indicador_id = 10 and ic.order = 1
@@ -216,7 +215,6 @@ def insert_indicador_categoria_organizacion_target():
             from datos d 
             join indicador_categoria ic on ic.indicador_id = 10 and ic.order = 3
             group by 1,2,3;
-
 
             -- Indicador 11: Militantes en partidos anteriores
 
