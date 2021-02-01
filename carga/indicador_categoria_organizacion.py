@@ -152,17 +152,70 @@ def insert_indicador_categoria_organizacion_target():
 
             -- Indicador 10: Ingresos    
 
-            INSERT INTO public.indicador_categoria_organizacion(
-            indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
-
-            select 10 indicador_id,  op.id organizacion_id, ic.id, count(distinct(ce.jne_idhojavida)) cantidad , 0,0,1
-            from candidato_experiencia ce
-            join candidato ca on ca.jne_idhojavida = ce.jne_idhojavida
-            left join indicador_categoria ic on ic.indicador_id = 11
+            with ingreso as (
+            select ca.jne_idhojavida, ca.documento_identidad, ca.nombres, ca.apellido_paterno, ca.apellido_materno,
+            op.nombre,
+            sum(renta_bruta_privado + renta_bruta_publico + renta_individual_privado + renta_individual_publico + otros_ingresos_privado) valor
+            from candidato_ingreso ci 
+            join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
-            where ce.tipo =2 and similarity(ce.centro_trabajo, op.nombre) < 0.5106383 
-            and similarity(ce.centro_trabajo, op.nombre) not in (0.46875,0.46153846,0.3888889)
-            group by 1,2,3  ;
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')   
+            group by 1,2,3,4,5,6
+                ) , 
+            inmueble as (
+            select ca.jne_idhojavida, ca.documento_identidad, ca.nombres, ca.apellido_paterno, ca.apellido_materno,
+            op.nombre,
+            sum(valor) valor
+            from candidato_inmueble ci 
+            join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')   
+            group by 1,2,3,4,5,6
+
+            ), 
+
+            mueble as (
+            select ca.jne_idhojavida, ca.documento_identidad, ca.nombres, ca.apellido_paterno, ca.apellido_materno,
+            op.nombre,
+            sum(valor) valor
+            from candidato_mueble ci 
+            join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            group by 1,2,3,4,5,6
+
+            ), 
+
+            datos as (
+            select ca.jne_idhojavida, ca.documento_identidad, ca.nombres, ca.apellido_paterno, ca.apellido_materno,
+            op.id, op.nombre, coalesce(i.valor, 0) ingresos, coalesce(mu.valor, 0) muebles, coalesce(im.valor, 0) inmuebles,  
+            coalesce(i.valor, 0) + coalesce(mu.valor, 0) + coalesce(im.valor, 0) total
+            from candidato ca 
+            left join ingreso i on ca.jne_idhojavida = i.jne_idhojavida
+            left join mueble mu on ca.jne_idhojavida = mu.jne_idhojavida
+            left join inmueble im on ca.jne_idhojavida = im.jne_idhojavida
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+
+            )
+
+
+            INSERT INTO public.indicador_categoria_organizacion(
+                indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+            select 10, d.id , ic.id, round(avg(ingresos),0) , 0, 0, 1
+            from datos d 
+            join indicador_categoria ic on ic.indicador_id = 10 and ic.order = 1
+            group by 1,2,3
+            union
+            select 10, d.id , ic.id, round(avg(inmuebles),0) , 0, 0, 1
+            from datos d 
+            join indicador_categoria ic on ic.indicador_id = 10 and ic.order = 2
+            group by 1,2,3
+            union
+            select 10, d.id , ic.id, round(avg(muebles),0) , 0, 0, 1
+            from datos d 
+            join indicador_categoria ic on ic.indicador_id = 10 and ic.order = 3
+            group by 1,2,3;
 
 
             -- Indicador 11: Militantes en partidos anteriores
