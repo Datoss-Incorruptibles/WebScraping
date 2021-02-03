@@ -12,19 +12,20 @@ def insert_candidato_target():
             cargo_id, proceso_id, organizacion_politica_id, documento_identidad, apellido_paterno, 
             apellido_materno, nombres, fecha_nacimiento, profesion, region, distrito_electoral, 
             ubigeo_postula, ruta_archivo)
-            SELECT cip.idcandidato, cip.idhojavida, op.strestadolista,cie.strestadoexp, 
+            SELECT cie.idcandidato, cie.idhojavida, op.strestadolista,cie.strestadoexp, 
             cip.strhojavida, cie.intposicion,opn.nombre, cie.idcargoeleccion, prc.id as procesoid, opn.id, 
             cip.strdocumentoidentidad, cip.strapellidopaterno, cip.strapellidomaterno, 
             cip.strnombres,TO_DATE(cip.strfechanacimiento,'DD/MM/YYYY'), '' profesion,
             cie.strubiregionpostula, cip.strpostuladistrito, cie.strubigeopostula,
             CONCAT('https://declara.jne.gob.pe', cip.strrutaarchivo) 
-            FROM jne.candidato_info_personal cip 
-            join jne.candidato_info_electoral cie on cip.strdocumentoidentidad = cie.strdocumentoidentidad 
-                and cip.idcandidato = cie.idcandidato
+            FROM jne.candidato_info_electoral cie           
+            join jne.candidato_info_personal cip on cie.idhojavida = cip.idhojavida
             join jne.organizacion_politica_region op on op.idorganizacionpolitica = cie.idorganizacionpolitica 
-                and op.idsolicitudlista = cie.idsolicitudlista
-            join organizacion_politica opn on op.idorganizacionpolitica = jne_idorganizacionpolitica 
-            left join proceso prc on prc.jne_idproceso = cie.idprocesoelectoral;
+             and op.idsolicitudlista = cie.idsolicitudlista
+             left join organizacion_politica opn on op.idorganizacionpolitica = jne_idorganizacionpolitica 
+             left join proceso prc on prc.jne_idproceso = cie.idprocesoelectoral;
+             --where op.strestadolista not in ('INADMISIBLE', 'IMPROCEDENTE')  -- no aplicar 
+             --and cie.strestadoexp not in ('INADMISIBLE', 'EXCLUSION', 'RETIRO', 'IMPROCEDENTE','RENUNCIA');       
         """
         cur.execute(query)
         con.commit()
