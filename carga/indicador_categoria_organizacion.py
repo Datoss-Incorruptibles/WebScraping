@@ -12,7 +12,7 @@ def insert_indicador_categoria_organizacion_target():
             from candidato ca
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             join indicador_categoria ic on ic.indicador_id = 1 and ca.nivel_estudio_id_max = ic.order
-            where ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE' 
+            where ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE','INADMISIBLE', 'EXCLUSION')
             and nivel_estudio_id_max is not null
             group by op.id , ic.id
             order by 1;
@@ -28,7 +28,7 @@ def insert_indicador_categoria_organizacion_target():
             join candidato ca on ca.jne_idhojavida = ce.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             join indicador_categoria ic on ic.indicador_id = 2 and ic.nombre = ce.ocupacion_profesion
-            where tipo = 3 and  ca.jne_estado_lista <> 'INADMISIBLE' and ca.jne_estado_expediente <> 'INADMISIBLE'
+            where tipo = 3 and  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE','INADMISIBLE', 'EXCLUSION')
             group by 2,3;
 
             -- Congreso actual 
@@ -131,7 +131,7 @@ def insert_indicador_categoria_organizacion_target():
             join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             join indicador_categoria ic on ic.nombre = s.nombre and ic.indicador_id = 8
-            where cj.tipo_proceso = 'civil' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            where cj.tipo_proceso = 'civil' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE','INADMISIBLE', 'EXCLUSION')
             group by 1,2,3;
 
 
@@ -146,7 +146,7 @@ def insert_indicador_categoria_organizacion_target():
             join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             join indicador_categoria ic on ic.nombre = s.nombre and ic.indicador_id = 9
-            where cj.tipo_proceso = 'penal' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            where cj.tipo_proceso = 'penal' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE','INADMISIBLE', 'EXCLUSION')
             and op.id = 1
             group by 1,2,3;
 
@@ -159,7 +159,7 @@ def insert_indicador_categoria_organizacion_target():
             from candidato_ingreso ci 
             join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
-            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')   
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE','INADMISIBLE', 'EXCLUSION')
             group by 1,2,3,4,5,6
                 ) , 
             inmueble as (
@@ -169,7 +169,7 @@ def insert_indicador_categoria_organizacion_target():
             from candidato_inmueble ci 
             join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
-            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')   
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE','INADMISIBLE', 'EXCLUSION')
             group by 1,2,3,4,5,6
 
             ), 
@@ -181,7 +181,7 @@ def insert_indicador_categoria_organizacion_target():
             from candidato_mueble ci 
             join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
-            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE','INADMISIBLE', 'EXCLUSION')
             group by 1,2,3,4,5,6
 
             ), 
@@ -195,7 +195,7 @@ def insert_indicador_categoria_organizacion_target():
             left join mueble mu on ca.jne_idhojavida = mu.jne_idhojavida
             left join inmueble im on ca.jne_idhojavida = im.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
-            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE','INADMISIBLE', 'EXCLUSION')
 
             )
 
