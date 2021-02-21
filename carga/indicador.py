@@ -9,9 +9,10 @@ def insert_indicador_target():
             INSERT INTO public.indicador( id, nombre, titulo, ubicacion, alerta, estado )
                 select 1, 'Máximo nivel estudio', 'Estudios', 1 , 0, 1 union
                 select 2, 'Trayectoria política','Trayectoria Politica', 1,0,0  union
+                select 3, 'Candidatos', 'Candidatos', 1 , 0, 1 union                
                 select 4, 'Congreso Actual','Representación Congreso Actual',1 ,0,1 union
                 select 5, 'Trayectoria política reducido','Trayectoria Política',1, 0,1  union
-                select 6, 'Votación vacancia Vizcarra','Votación vacancia presidencial',1 ,0, 1 union
+                select 6, 'Votación vacancia Vizcarra','Votación vacancia presidencial',1 ,0, 0 union
                 select 7, 'Educación Superior', 'Educ. Superior',1,0,1 union
                 select 8, 'Tipos sentencias civil', 'Tipo Civil',1,0,1 union
                 select 9, 'Tipos sentencias penal', 'Tipo Penal',1,0,1 union

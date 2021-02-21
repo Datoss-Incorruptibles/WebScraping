@@ -23,7 +23,14 @@ def insert_indicador_categoria_target():
             select 2, ROW_NUMBER () OVER (ORDER BY ocupacion_profesion), ocupacion_profesion, 0, 1 
             from candidato_experiencia where tipo = 3 group by ocupacion_profesion order by 2;
 
-           
+            -- INDICADOR 3: CANTIDAD DE CANDIDATOS           
+
+            INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+            select 3,1, 'Presidente', 0, 1 union
+            select 3,4, 'Congresista', 0, 1 union
+            select 3,5, 'Parlamento', 0, 1 order by 2;
+
+
             -- INDICADOR 4: categoria _congreso_actual
 
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
@@ -52,9 +59,9 @@ def insert_indicador_categoria_target():
 
             INSERT INTO indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             
-            select 6, 1, 'A favor',1,1 union
-            select 6, 2, 'En contra',0,1 union
-            select 6, 3, 'Abstención',0,1;
+            select 6, 1, 'A favor',1,0 union
+            select 6, 2, 'En contra',0,0 union
+            select 6, 3, 'Abstención',0,0;
 
 
             -- INDICADOR 8: Tipos de sentencias civil

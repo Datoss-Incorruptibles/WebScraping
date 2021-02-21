@@ -31,6 +31,23 @@ def insert_indicador_categoria_organizacion_target():
             where tipo = 3 and  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
             group by 2,3;
 
+
+             -- Candidatos cantidad    
+
+             INSERT INTO public.indicador_categoria_organizacion(
+                indicador_id,  organizacion_id, indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+
+            select 3, op.id, ic.id, count(*), 0,1,0
+            from candidato ca  
+            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            join indicador_categoria ic on ic.order = ca.cargo_id and ic.indicador_id = 3
+            where ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            and ca.cargo_id not in (2,3)
+            group by 1,2,3
+            order by 1,2,3  ;
+
+
+
             -- Congreso actual 
 
             INSERT INTO public.indicador_categoria_organizacion
