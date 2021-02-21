@@ -7,8 +7,7 @@ load_dotenv('../.env')
 
 def connect_db():
     return psycopg2.connect(database=os.getenv("DB_NAME_FINAL"), user=os.getenv("DB_USER_FINAL"), \
-        password=os.getenv("DB_PASS_FINAL"), host=os.getenv("DB_HOST_FINAL"), port="5432")
-
+        password=os.getenv("DB_PASS_FINAL"), host=os.getenv("DB_HOST_FINAL"), port=os.getenv("DB_PORT_FINAL"))
 
 def clean_all_data():
     try: 
@@ -29,6 +28,10 @@ def clean_all_data():
             truncate table candidato_mueble;
             truncate table candidato_inmueble;
             truncate table candidato_ingreso;
+            truncate table plan_criterio;
+            truncate table organizacion_plan;
+            truncate table organizacion_plan_detalle;
+            truncate table organizacion_plan_criterio;
             ALTER SEQUENCE auth_group_id_seq                       RESTART WITH 1;
             ALTER SEQUENCE auth_group_permissions_id_seq           RESTART WITH 1;
             ALTER SEQUENCE auth_permission_id_seq                  RESTART WITH 1;
@@ -52,9 +55,12 @@ def clean_all_data():
             ALTER SEQUENCE organizacion_politica_id_seq            RESTART WITH 1;
             ALTER SEQUENCE proceso_id_seq                          RESTART WITH 1;
             ALTER SEQUENCE candidato_ingreso_id_seq                RESTART WITH 1;
-            ALTER SEQUENCE candidato_mueble_id_seq                RESTART WITH 1;
-            ALTER SEQUENCE candidato_inmueble_id_seq                RESTART WITH 1;
-
+            ALTER SEQUENCE candidato_mueble_id_seq                 RESTART WITH 1;
+            ALTER SEQUENCE candidato_inmueble_id_seq               RESTART WITH 1;
+            ALTER SEQUENCE plan_criterio_id_seq                    RESTART WITH 1;
+            ALTER SEQUENCE organizacion_plan_id_seq                RESTART WITH 1;
+            ALTER SEQUENCE organizacion_plan_detalle_id_seq        RESTART WITH 1;
+            ALTER SEQUENCE organizacion_plan_criterio_id_seq       RESTART WITH 1;
 
         """
         cur.execute(query)
@@ -91,7 +97,11 @@ def add_default_date_value():
             alter table candidato_ingreso alter column fecha_registro set default now();
             alter table candidato_inmueble alter column fecha_registro set default now();
             alter table candidato_mueble alter column fecha_registro set default now();
-
+            alter table candidato_medio alter column fecha_registro set default now();
+            alter table plan_criterio alter column fecha_registro set default now();
+            alter table organizacion_plan alter column fecha_registro set default now();
+            alter table organizacion_plan_detalle alter column fecha_registro set default now();
+            alter table organizacion_plan_criterio alter column fecha_registro set default now();
         """
         cur.execute(query)
         con.commit()
