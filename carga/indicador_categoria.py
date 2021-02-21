@@ -28,7 +28,7 @@ def insert_indicador_categoria_target():
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             select 3,1, 'Presidente', 0, 1 union
             select 3,4, 'Congresista', 0, 1 union
-            select 3,5, 'Parlamento', 0, 1 order by 2;
+            select 3,5, 'Parlamento Andino', 0, 1 order by 2;
 
 
             -- INDICADOR 4: categoria _congreso_actual
