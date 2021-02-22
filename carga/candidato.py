@@ -57,7 +57,18 @@ def update_candidato_target():
             where ce.nivel_estudio_estado <> 'NO CONCLUIDO'
             group by ca.jne_idcandidato, ca.jne_idhojavida 
             ) ne
-            where ca.jne_idcandidato = ne.jne_idcandidato and ca.jne_idhojavida = ne.jne_idhojavida
+            where ca.jne_idcandidato = ne.jne_idcandidato and ca.jne_idhojavida = ne.jne_idhojavida;
+
+            update candidato ca  set nivel_estudio_id_max = ne.nivel_estudio_id 
+            from
+            (
+            SELECT ca.jne_idcandidato, ca.jne_idhojavida, 1 nivel_estudio_id
+            from candidato ca 
+            where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
+            and nivel_estudio_id_max is null  
+            ) ne
+            where ca.jne_idcandidato = ne.jne_idcandidato and ca.jne_idhojavida = ne.jne_idhojavida;
+
         """
         query2 = """
             update candidato ca  set profesion = pr.profesion
@@ -76,7 +87,7 @@ def update_candidato_target():
             select ca.jne_idcandidato, ca.jne_idhojavida, STRING_AGG (estudio, ' ') profesion
             from candidato_estudio ce 
             left join candidato ca on  ca.jne_idhojavida = ce.jne_idhojavida
-            where ca.nivel_estudio_id_max in (3) and  ce.nivel_estudio_estado in ('CONCLUIDO')
+            where ca.nivel_estudio_id_max in (3) and  ce.nivel_estudio_estado in ('CONCLUIDO') AND CE.NIVEL_ESTUDIO_ID NOT IN ('1','2')
             group by ca.jne_idcandidato, ca.jne_idhojavida 
             ) pr where ca.jne_idcandidato = pr.jne_idcandidato and ca.jne_idhojavida = pr.jne_idhojavida;
 

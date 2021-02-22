@@ -16,6 +16,7 @@ from indicador_categoria_candidato import insert_indicador_categoria_candidato_t
 from candidato_bien_mueble import insert_candidato_bien_muebles, update_candidato_bien_muebles
 from candidato_bien_inmueble import insert_candidato_bien_inmuebles
 from candidato_ingreso import insert_candidato_ingresos
+from planes_gobierno import insert_planes
 
 
 add_default_date_value()
@@ -35,6 +36,8 @@ insert_candidato_bien_muebles()
 insert_candidato_bien_inmuebles()
 insert_candidato_ingresos()
 update_candidato_bien_muebles()
+
+insert_planes()
 
 insert_indicador_target()
 insert_indicador_categoria_target()
