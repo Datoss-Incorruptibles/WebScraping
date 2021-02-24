@@ -51,6 +51,47 @@ def uploadRanking():
 
 
 
-createRankingUnis()
+# createRankingUnis()
 
-uploadRanking()
+# uploadRanking()
+
+
+def createLicenciamientoSunedu():
+    cur = con.cursor()
+    cur.execute('''
+    drop table IF EXISTS de.linc_sunedu;
+    CREATE TABLE IF NOT EXISTS de.linc_sunedu(
+        codigoEntidad character varying,
+        nombre character varying,
+        tipoGestion character varying,
+        estado_licenciamiento character varying,
+        periodo_licenciamiento  character varying,
+        departamento_local character varying,
+        provincia_local character varying,
+        distrito_local character varying,
+        latitud_ubicacion character varying,
+        longitud_ubicacion character varying
+        );
+    ''')
+    con.commit()
+    print("Table linc_sunedu created successfully")
+
+
+
+def uploadLicenciamiento():
+  cur = con.cursor()
+  cur.execute("TRUNCATE de.linc_sunedu;")
+  copy_sql = """
+            COPY de.linc_sunedu FROM stdin WITH CSV HEADER
+            DELIMITER as ','
+            """
+
+  with open('./licenciamiento.csv', 'r') as f:
+    cur.copy_expert(sql=copy_sql, file=f)
+    con.commit()
+    print("Table lincSunedu cargado successfully")
+
+
+
+createLicenciamientoSunedu()
+uploadLicenciamiento()
