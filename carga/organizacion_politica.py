@@ -15,7 +15,7 @@ def insert_organizacion_target():
 
             from (
                 SELECT idorganizacionpolitica, strorganizacionpolitica,
-                case when opr.strestadolista not in ('INADMISIBLE', 'IMPROCEDENTE') then 1 else 0 end estado
+                case when opr.strestadolista not in ('INADMISIBLE', 'IMPROCEDENTE', 'RETIRO') then 1 else 0 end estado
                 from jne.organizacion_politica_region opr
                 group by idorganizacionpolitica, strorganizacionpolitica, opr.strestadolista
             order by 1,2,3

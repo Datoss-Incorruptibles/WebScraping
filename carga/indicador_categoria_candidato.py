@@ -29,7 +29,7 @@ def insert_indicador_categoria_candidato_target():
         """
        
         query3 = """ 
-             -- INDICADOR 1: categoria _nivel estudio
+             -- INDICADOR 8: sentencias civiles
             INSERT INTO public.indicador_categoria_candidato(
              indicador_id,  candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
             select 8,  ca.id,  ic.id , count(*)  , 0,1,1
