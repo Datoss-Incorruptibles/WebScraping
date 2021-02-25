@@ -1,7 +1,7 @@
 # Proyectos de web scraping
 
 # Consulta de listas y candidatos
-*Link de la pagina Scrapeada:https://consultalistacandidato.jne.gob.pe/PresidenteCongresoParlamentoAndino
+*Link de la pagina Scrapeada:https://plataformaelectoral.jne.gob.pe/ListaDeCandidatos/Index
 
 ## Guia de instalacion
 
