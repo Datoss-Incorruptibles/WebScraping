@@ -177,6 +177,7 @@ def insert_indicador_categoria_organizacion_target():
             join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
+            and ca.jne_idhojavida not in (136408)
             group by 1,2,3,4,5,6
                 ) , 
             inmueble as (
@@ -187,6 +188,7 @@ def insert_indicador_categoria_organizacion_target():
             join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
+            and ca.jne_idhojavida not in (136408)
             group by 1,2,3,4,5,6
 
             ), 
@@ -199,6 +201,7 @@ def insert_indicador_categoria_organizacion_target():
             join candidato ca on ca.jne_idhojavida = ci.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
+            and ca.jne_idhojavida not in (136408)            
             group by 1,2,3,4,5,6
 
             ), 
@@ -211,9 +214,9 @@ def insert_indicador_categoria_organizacion_target():
             left join ingreso i on ca.jne_idhojavida = i.jne_idhojavida
             left join mueble mu on ca.jne_idhojavida = mu.jne_idhojavida
             left join inmueble im on ca.jne_idhojavida = im.jne_idhojavida
-            join organizacion_politica op on op.id = ca.organizacion_politica_id
+            join organizacion_politica op on op.id = ca.organizacion_politica_id            
             where  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
-
+            and ca.jne_idhojavida not in (136408)
             )
 
             INSERT INTO public.indicador_categoria_organizacion(
