@@ -41,7 +41,7 @@ def insert_indicador_categoria_organizacion_target():
             from candidato ca  
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             join indicador_categoria ic on ic.order = ca.cargo_id and ic.indicador_id = 3
-            where ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE', 'IMPROCEDENTE')
+            where ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
             and ca.cargo_id not in (2,3)
             group by 1,2,3
             order by 1,2,3  ;
