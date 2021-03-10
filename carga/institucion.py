@@ -9,18 +9,18 @@ def insert_institucion_target():
             INSERT INTO public.institucion(institucion)
             select strcenestudioposgrado 
             from jne.candidato_post_grado cpg
-            where strtengoposgrado = '1' 
+            where strtengoposgrado = '1' and strcenestudioposgrado is not null
             union
             select struniversidad
-            from jne.candidato_edu_uni  where strtengoeduuniversitaria = '1'
+            from jne.candidato_edu_uni  where strtengoeduuniversitaria = '1' and struniversidad is not null
             union
             select strcentroestudionouni  
             FROM jne.candidato_edu_no_uni 
-            where strtengonouniversitaria = '1' and strconcluidonouni <> '0'
+            where strtengonouniversitaria = '1' and strconcluidonouni <> '0' and strcentroestudionouni is not null
             union
             select strcenestudiotecnico 
             FROM jne.candidato_edu_tecnica 
-            where strtengoedutecnico = '1' and strconcluidoedutecnico <> '0';
+            where strtengoedutecnico = '1' and strconcluidoedutecnico <> '0' and strcenestudiotecnico is not null;
         """
         cur.execute(query)
         con.commit()

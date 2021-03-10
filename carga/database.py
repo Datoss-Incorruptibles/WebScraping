@@ -28,8 +28,8 @@ def clean_all_data():
             truncate table candidato_mueble;
             truncate table candidato_inmueble;
             truncate table candidato_ingreso;
-            truncate table plan_criterio;
-            truncate table organizacion_plan;
+            truncate table plan_criterio CASCADE;
+            truncate table organizacion_plan CASCADE;
             truncate table organizacion_plan_detalle;
             truncate table organizacion_plan_criterio;
             ALTER SEQUENCE auth_group_id_seq                       RESTART WITH 1;

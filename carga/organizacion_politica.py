@@ -153,5 +153,51 @@ def insert_organizacion_target():
             cur.close()
             con.close()
 
+
+
+def update_organizacion_images():
+    try: 
+        con = connect_db()
+        cur = con.cursor()
+
+        query_update = """
+            update organizacion_politica set fundacion_fecha = cast ( '1924-05-07' as date) , ruta_archivo = 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785546/candidatos/apra_umaakf.jpg' where jne_idorganizacionpolitica =32;
+            update organizacion_politica set fundacion_fecha = cast ( '1956-07-07' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785550/candidatos/pala_o60uvr.jpg' where jne_idorganizacionpolitica =4;
+            update organizacion_politica set fundacion_fecha = cast ( '1966-12-18' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613788519/candidatos/ppc_sbe7bx.jpg' where jne_idorganizacionpolitica =15;
+            update organizacion_politica set fundacion_fecha = cast ( '2020-12-01' as date) , ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785553/candidatos/runa_fvjya0.jpg' where jne_idorganizacionpolitica =5;
+            update organizacion_politica set fundacion_fecha = cast ( '2001-11-17' as date) , ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785547/candidatos/democraciadirecta_q6cx6u.jpg' where jne_idorganizacionpolitica =2191;
+            update organizacion_politica set fundacion_fecha = cast ( '2001-12-08' as date) , ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785548/candidatos/alianza_am1koz.bmp' where jne_idorganizacionpolitica =1257;
+            update organizacion_politica set fundacion_fecha = cast ( '2005-11-25' as date) , ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785552/candidatos/victorianacional_m2e21v.jpg' where jne_idorganizacionpolitica =21;
+            update organizacion_politica set fundacion_fecha = cast ( '2018-10-01' as date) , ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785551/candidatos/podemos_knkzkl.jpg' where jne_idorganizacionpolitica =2731;
+            update organizacion_politica set fundacion_fecha = cast ( '1989-09-30' as date) , ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785550/candidatos/frepap_aumhlv.jpg' where jne_idorganizacionpolitica =2646;
+            update organizacion_politica set fundacion_fecha = cast ( '2012-02-15' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785551/candidatos/lapiz_vxjzhg.jpg' where jne_idorganizacionpolitica =2218;
+            update organizacion_politica set fundacion_fecha = cast ( '2013-06-21' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785550/candidatos/fa_pkhhkh.jpg' where jne_idorganizacionpolitica =2160;
+            update organizacion_politica set fundacion_fecha = cast ( '2000-04-10' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785547/candidatos/avanzapais_yvh0s5.jpg' where jne_idorganizacionpolitica =2173;
+            update organizacion_politica set fundacion_fecha = cast ( '1997-06-01' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785551/candidatos/somosperu_yglutd.jpg' where jne_idorganizacionpolitica =14;
+            update organizacion_politica set fundacion_fecha = cast ( '2012-09-16' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785549/candidatos/ese_v8u1qu.jpg' where jne_idorganizacionpolitica =55;
+            update organizacion_politica set fundacion_fecha = cast ( '2010-03-09' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785549/candidatos/k_kzem4w.jpg' where jne_idorganizacionpolitica =1366;
+            update organizacion_politica set fundacion_fecha = cast ( '2017-11-18' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785552/candidatos/morado_co98ul.jpg' where jne_idorganizacionpolitica =2840;
+            update organizacion_politica set fundacion_fecha = cast ( '2020-10-30' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785550/candidatos/escoba_cjgowf.jpg' where jne_idorganizacionpolitica =2857;
+            update organizacion_politica set fundacion_fecha = cast ( '2005-10-03' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785552/candidatos/olla_aoiqyf.jpg' where jne_idorganizacionpolitica =179;
+            update organizacion_politica set fundacion_fecha = cast ( '2020-10-07' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785553/candidatos/renovacion_rkpckq.jpg' where jne_idorganizacionpolitica =22;
+            update organizacion_politica set fundacion_fecha = cast ( '1994-09-21' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785554/candidatos/victoria_nwf0it.jpg' where jne_idorganizacionpolitica =47;
+            update organizacion_politica set fundacion_fecha = cast ( '2017-05-22' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785548/candidatos/jp_wgxbun.jpg' where jne_idorganizacionpolitica =1264;
+            update organizacion_politica set fundacion_fecha = cast ( '2012-07-24' as date), ruta_archivo= 'https://res.cloudinary.com/dv2q4mh6c/image/upload/c_scale,h_70/v1613785547/candidatos/contigo_b9dz63.jpg' where jne_idorganizacionpolitica =2235;
+        """
+
+        cur.execute(query_update)
+        con.commit()
+        con.close()
+        print ("Organizacion Politica update images success!")
+    except (Exception, psycopg2.Error) as error :
+        print ("Error while fetching data", error)
+
+    finally:
+        if(con):
+            cur.close()
+            con.close()
+
+
 if __name__ == "__main__":
-    insert_organizacion_target()
+    #insert_organizacion_target()
+    update_organizacion_images()

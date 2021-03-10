@@ -8,9 +8,9 @@ def insert_plan_criterio():
         query = """
             INSERT INTO public.plan_criterio(id, nombre, abreviatura, peso)	
             select 1, 'Dimensión Social', 'SOCIAL',0 UNION
-            select 2, 'Dimensión Institucional', 'INSTITUCIONAL',0 UNION
-            select 3, 'Dimensión Económica', 'ECONÓMICA',0 UNION
-            select 4, 'Dimensión Territorial-Ambiental', 'TERRITORIAL-AMBIENTAL',0 UNION
+            select 2, 'Dimensión Económica', 'ECONÓMICA',0 UNION
+            select 3, 'Dimensión Territorial-Ambiental', 'TERRITORIAL-AMBIENTAL',0 UNION
+            select 4, 'Dimensión Institucional', 'INSTITUCIONAL',0 UNION
             select 5, 'Propuestas', '',0;
         """
         cur.execute(query)
