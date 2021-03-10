@@ -87,7 +87,9 @@ def insert_indicador_categoria_target():
             INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
             select 11, 1, 'PARTIDOS ANTERIORES', 1, 1;
 
-
+            -- INDICADOR 12: Sin sentencias
+            INSERT INTO public.indicador_categoria(indicador_id, "order", nombre, alerta, estado)
+            select 12, 1, 'Sin Sentencias', 1, 1;
 
 
         """

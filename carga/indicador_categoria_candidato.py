@@ -54,7 +54,7 @@ def insert_indicador_categoria_candidato_target():
             where cj.tipo_proceso = 'penal' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
             group by 1,2,3;
 
-            -- Militancia en partidos anteriores
+            -- Indicador 11: Militancia en partidos anteriores
 
              INSERT INTO public.indicador_categoria_candidato(
               indicador_id,  candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
@@ -67,6 +67,17 @@ def insert_indicador_categoria_candidato_target():
             and similarity(ce.centro_trabajo, op.nombre) not in (0.46875,0.46153846,0.3888889)
             group by 1,2;
 
+
+            -- Indicador 12: Sin sentencias
+            
+            INSERT INTO public.indicador_categoria_candidato(
+            indicador_id,  candidato_id,indicador_categoria_id, cantidad, porcentaje, alerta, estado)
+            select 12,  ca.id,  ic.id , count(*)  , 0,1,1
+            from candidato ca
+            left join candidato_judicial cj  on ca.jne_idhojavida = cj.jne_idhojavida
+            join indicador_categoria ic on ic.indicador_id = 12
+            where cj.jne_idhojavida is null and  ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
+            group by 1,2,3;
         """ 
 
 
