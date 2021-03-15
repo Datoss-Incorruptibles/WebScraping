@@ -9,20 +9,20 @@ def insert_estudio_target():
             INSERT INTO public.estudio(estudio)
             select strespecialidadposgrado  
             from jne.candidato_post_grado cpg
-            where strtengoposgrado = '1' 
+            where strtengoposgrado = '1' and strespecialidadposgrado is not null
             group by strespecialidadposgrado
             union
             select strcarrerauni  
             from jne.candidato_edu_uni  
-            where strtengoeduuniversitaria = '1'
+            where strtengoeduuniversitaria = '1' and strcarrerauni is not null
             union
             select strcarreranouni  
             FROM jne.candidato_edu_no_uni 
-            where strtengonouniversitaria = '1' and strconcluidonouni <> '0'
+            where strtengonouniversitaria = '1' and strconcluidonouni <> '0' and strcarreranouni is not null
             union
             select strcarreratecnico  
             FROM jne.candidato_edu_tecnica 
-            where strtengoedutecnico = '1' and strconcluidoedutecnico <> '0'
+            where strtengoedutecnico = '1' and strconcluidoedutecnico <> '0' and strcarreratecnico is not null
         """
         cur.execute(query)
         con.commit()
