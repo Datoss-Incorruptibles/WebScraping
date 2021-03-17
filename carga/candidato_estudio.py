@@ -48,6 +48,9 @@ def insert_candidato_estudio_target():
             when idhojavida = 134951 and idhveduuniversitaria = 138055 then 'UNIVERSITARIO'
             when idhojavida = 137923 and idhveduuniversitaria = 142336 then 'EGRESADO'
             when idhojavida = 135963 and idhveduuniversitaria = 139523 then 'UNIVERSITARIO'
+            when idhojavida = 136914 and idhveduuniversitaria = 140908  then 'BACHILLER'
+            when idhojavida = 133940 and idhveduuniversitaria = 136676 then 'EGRESADO'
+
 
             when strconcluidoeduuni = '0' and stregresadoeduuni = '0' and UPPER(strcarrerauni) like '%BACHILLER%' and (straniobachiller <> '' or straniobachiller is not null) THEN 'CONCLUIDO' 
             when strconcluidoeduuni = '0' and stregresadoeduuni = '0' and UPPER(strcarrerauni) not like '%BACHILLER%' and (straniobachiller <> '' or straniobachiller is not null) THEN 'UNIVERSITARIO'
@@ -157,6 +160,9 @@ def insert_candidato_estudio_target():
             0 institucion_id, 0 estudio_id, '' anio_bachiller, '' anio_titulo
             , '' strcomentario
             FROM jne.candidato_edu_basic where strtengoedubasica <> '2';
+
+            
+            
         """
         cur.execute(query)
         con.commit()
