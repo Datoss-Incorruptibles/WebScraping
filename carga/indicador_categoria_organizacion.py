@@ -163,8 +163,7 @@ def insert_indicador_categoria_organizacion_target():
             join candidato ca on ca.jne_idhojavida = cj.jne_idhojavida
             join organizacion_politica op on op.id = ca.organizacion_politica_id
             join indicador_categoria ic on ic.nombre = s.nombre and ic.indicador_id = 9
-            where cj.tipo_proceso = 'penal' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')
-            and op.id = 1
+            where cj.tipo_proceso = 'penal' and ca.jne_estado_lista not in ('INADMISIBLE', 'IMPROCEDENTE') and ca.jne_estado_expediente not in ('INADMISIBLE','IMPROCEDENTE','EXCLUSION', 'RETIRO', 'RENUNCIA')        
             group by 1,2,3;
 
             -- Indicador 10: Ingresos    
