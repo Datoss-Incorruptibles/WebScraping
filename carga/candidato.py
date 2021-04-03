@@ -28,6 +28,12 @@ def insert_candidato_target():
              --and cie.strestadoexp not in ('INADMISIBLE', 'EXCLUSION', 'RETIRO', 'IMPROCEDENTE','RENUNCIA');       
         """
         cur.execute(query)
+
+        query_fix = """
+                delete from candidato where id = (select id from candidato where jne_idhojavida = 136564 limit 1);
+        """
+
+        cur.execute(query_fix)
         con.commit()
 
         con.close()
