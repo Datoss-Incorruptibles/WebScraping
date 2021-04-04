@@ -33,6 +33,7 @@ def clean_all_data():
             truncate table organizacion_plan_detalle;
             truncate table organizacion_plan_criterio;
             truncate table candidato_info_adicional;
+            truncate table candidato_anotacion_marginal;
             ALTER SEQUENCE auth_group_id_seq                       RESTART WITH 1;
             ALTER SEQUENCE auth_group_permissions_id_seq           RESTART WITH 1;
             ALTER SEQUENCE auth_permission_id_seq                  RESTART WITH 1;
@@ -63,6 +64,7 @@ def clean_all_data():
             ALTER SEQUENCE organizacion_plan_detalle_id_seq        RESTART WITH 1;
             ALTER SEQUENCE organizacion_plan_criterio_id_seq       RESTART WITH 1;
             ALTER SEQUENCE candidato_info_adicional_id_seq         RESTART WITH 1;
+            ALTER SEQUENCE candidato_anotacion_marginal_id_seq     RESTART WITH 1;
         """
         cur.execute(query)
         con.commit()
@@ -104,6 +106,7 @@ def add_default_date_value():
             alter table organizacion_plan_detalle alter column fecha_registro set default now();
             alter table organizacion_plan_criterio alter column fecha_registro set default now();
             alter table candidato_info_adicional alter column fecha_registro set default now();
+            alter table candidato_anotacion_marginal alter column fecha_registro set default now();
 
         """
         cur.execute(query)
